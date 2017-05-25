@@ -13,7 +13,12 @@ public class HelloWorldController {
 	}
 	
 	@RequestMapping(value = "/home", method= RequestMethod.GET)
-	public String home() {
+	public String homeNotLogged() {
+		return "home";
+	}
+	
+	@RequestMapping(value = "/", method= RequestMethod.GET)
+	public String homeLogged() {
 		return "home";
 	}
 }
