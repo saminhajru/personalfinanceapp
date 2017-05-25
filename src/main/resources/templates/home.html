@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymelaf.com">
+<html xmlns:th="www.thymelaf.com" xmlns:sec="www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="ISO-8859-1" />
 <title>Insert title here</title>
 </head>
 <body>
 
-<a th:href="@{register}"> REGISTER </a>
+<a th:href="@{register}"> REGISTER </a> <br/>
+
+
+<div sec:authorize="!isAuthenticated()">
+<a th:href="@{/}"> LOGIN </a>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+
+<form th:action="@{logout}" method="POST">
+
+<input type="submit" value="LOGOUT" />
+
+</form>
+
+
+</div>
 
 
 </body>
