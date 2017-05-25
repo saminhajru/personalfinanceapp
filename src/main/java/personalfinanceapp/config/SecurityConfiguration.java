@@ -13,27 +13,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		auth.jdbcAuthentication().usersByUsernameQuery("select username, password, enabled from user where "
-				+ "binary username = ?").authoritiesByUsernameQuery("select username, authority from user where binary"
-						+ " username = ?").dataSource(dataSource).passwordEncoder(passwordEncoder);
-		
+
+		auth.jdbcAuthentication()
+				.usersByUsernameQuery("select username, password, enabled from user where " + "binary username = ?")
+				.authoritiesByUsernameQuery("select username, authority from user where binary" + " username = ?")
+				.dataSource(dataSource).passwordEncoder(passwordEncoder);
+
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.authorizeRequests().antMatchers("/").hasRole("USER").and().formLogin().loginPage("/login").and().logout().logoutSuccessUrl("/home");
-		
+
+		http.authorizeRequests().antMatchers("/").hasRole("USER").and().formLogin().loginPage("/login").and().logout()
+				.logoutSuccessUrl("/home");
+
 	}
 
 }
