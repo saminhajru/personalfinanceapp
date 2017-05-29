@@ -2,14 +2,26 @@ package personalfinanceapp.user;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
+import personalfinanceapp.validationGroups.FormValidationGroup;
+import personalfinanceapp.validationGroups.PersistenceValidationGroup;
 
 @Entity
 public class User {
 
 	@Id
+	@Size(min = 6, max = 18, groups={FormValidationGroup.class, PersistenceValidationGroup.class})
 	private String username;
+	
+	@Email
 	private String email;
+	
+	@Size(min = 6, max = 18, groups={FormValidationGroup.class})
 	private String password;
+	
 	private boolean enabled;
 	private String authority;
 
