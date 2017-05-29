@@ -4,33 +4,27 @@
 <meta charset="ISO-8859-1" />
 <title>Register</title>
 
-<script type="text/javascript" th:src="@{jquery.min.js}">
-	
-</script>
-<script type="text/javascript"
-	th:src="@{jquery_validate/jquery.validate.min.js}">
-	
-</script>
-<script type="text/javascript"
-	th:src="@{jquery_validate/additional-methods.min.js}">
-	
-</script>
+
 <link type="text/css" rel="stylesheet"
 	th:href="@{bootstrap/css/bootstrap.min.css}" />
-<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}">
-	
+
+<script type="text/javascript" th:src="@{jquery.min.js}">	
 </script>
 
-<style>
-label.error {
-	color: red;
-}
-</style>
+<script type="text/javascript"
+	th:src="@{jquery_validate/jquery.validate.min.js}">
+</script>
+
+<script type="text/javascript"
+	th:src="@{jquery_validate/additional-methods.min.js}">
+</script>
+
+<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}">
+</script>
+
 
 <script>
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(function() {
 
 						$('form')
 								.validate(
@@ -72,7 +66,25 @@ label.error {
 
 											},
 										});
-
+						
+						
+						$("#registrationForm input").on("blur", function(){
+							if($(this).valid()) {
+									$(this).parent().parent().addClass("has-success");
+									$(this).parent().parent().removeClass("has-error");
+									$("#submit").prop("disabled", false);
+									$(this).css("color", "black");
+									
+							} else {
+ 									$(this).parent().parent().removeClass("has-success");
+ 									$(this).parent().parent().addClass("has-error");
+									$("#submit").prop("disabled", "disabled");
+									$(".error").css("color", "red");
+								
+							}
+					
+						});
+										
 					});
 </script>
 
@@ -87,7 +99,7 @@ label.error {
 			<div class="panel-body">
 
 				<form th:action="@{doregister}" method="POST" th:object="${user}"
-					class="form-horizontal">
+					class="form-horizontal" id="registrationForm">
 
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="username">
