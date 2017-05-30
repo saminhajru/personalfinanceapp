@@ -1,25 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.com">
 <head>
-<meta charset="ISO-8859-1"/>
-<title>Insert title here</title>
+<meta charset="ISO-8859-1" />
+<title>Login page</title>
+
+<link type="text/css" rel="stylesheet"
+	th:href="@{bootstrap/css/bootstrap.min.css}" />
+
+<script type="text/javascript" th:src="@{jquery.min.js}">
+	
+</script>
+
+<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}">
+	
+</script>
+
+
 </head>
 <body>
 
 
-<form th:action="@{login}" method="POST">
+	<div class="container">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Please sign in</div>
+			<div class="panel-body ">
+			
+				<h4 th:text="${errorMessage}" style="color: red; font : 10px"> </h4>   
+
+				<form th:action="@{login}" method="POST" class="form-signin col-lg-4">
+				
+			
+
+					<label for="username"> Username </label> 
+						<input type="text" name="username" class="form-control " /> 
+					
+					<label for="password"> Password </label>
+					 	<input type="text" name="password" class="form-control " />
+					 <br/>
+					 	<input type="submit" value="SUBMIT" class="btn btn-large btn-primary" />
+				
 
 
-Username: <br/>
-<input type="text" name="username"/> <br/>
+				</form>
 
-Password: <br/>
-<input type="text" name="password"/> <br/>
-
-<input type="submit" value="SUBMIT"/> <br/>
-
-
-</form>
-
+			</div>
+		</div>
+	</div>
 </body>
 </html>
