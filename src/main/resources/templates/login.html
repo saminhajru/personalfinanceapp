@@ -25,21 +25,25 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Please sign in</div>
 			<div class="panel-body ">
-			
-				<h4 th:text="${errorMessage}" style="color: red; font : 10px"> </h4>   
 
-				<form th:action="@{login}" method="POST" class="form-signin col-lg-4">
 				
-			
+				
 
-					<label for="username"> Username </label> 
-						<input type="text" name="username" class="form-control " /> 
-					
-					<label for="password"> Password </label>
-					 	<input type="text" name="password" class="form-control " />
-					 <br/>
-					 	<input type="submit" value="SUBMIT" class="btn btn-large btn-primary" />
 				
+				<form th:action="@{login}" method="POST"
+					class="form-signin col-lg-4">
+
+				<div th:if="${errorMessage} != null" class="alert alert-danger">
+					<h4 th:text="${errorMessage}" style="color: red; font: 10px">
+					</h4>
+				</div>
+
+					<label for="username"> Username </label> <input type="text"
+						name="username" class="form-control " /> <label for="password">
+						Password </label> <input type="text" name="password" class="form-control " />
+					<br /> <input type="submit" value="SUBMIT"
+						class="btn btn-large btn-primary" />
+
 
 
 				</form>
