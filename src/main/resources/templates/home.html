@@ -1,29 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymelaf.com" xmlns:sec="www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="www.thymelaf.com"
+	xmlns:sec="www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="ISO-8859-1" />
 <title>Insert title here</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}" />
+
+<script type="text/javascript" th:src="@{js/jquery.min.js}">
+	
+</script>
+
+<script>
+
+	$(document).ready(function() {
+	
+	$("#sidebar-btn").click(function() {
+	$("#sidebar").toggleClass("visible");	
+	
+	});
+});
+</script>
+
 </head>
 <body>
 
-<a th:href="@{register}"> REGISTER </a> <br/>
 
 
-<div sec:authorize="!isAuthenticated()">
-<a th:href="@{/}"> LOGIN </a>
-</div>
+	<div id="sidebar">
 
-<div sec:authorize="isAuthenticated()">
+		<ul>
+			<li>
+				<div sec:authorize="!isAuthenticated()">
+					<a th:href="@{/}"> Login </a>
+				</div>
+			</li>
+			<li><a th:href="@{register}"> Register </a></li>
 
-<form th:action="@{logout}" method="POST">
+			<li>
+				<div sec:authorize="isAuthenticated()">
+					<form th:action="@{logout}" method="POST">
+						<input type="submit" value="LOGOUT" />
+					</form>
+				</div>
+			</li>
 
-<input type="submit" value="LOGOUT" />
+		</ul>
 
-</form>
+		<div id="sidebar-btn">
+			<span> </span> <span> </span> <span> </span>
+		</div>
 
-
-</div>
-
+	</div>
 
 </body>
 </html>

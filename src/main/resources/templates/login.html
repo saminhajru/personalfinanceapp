@@ -4,10 +4,12 @@
 <meta charset="ISO-8859-1" />
 <title>Login page</title>
 
+<link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
+
 <link type="text/css" rel="stylesheet"
 	th:href="@{bootstrap/css/bootstrap.min.css}" />
 
-<script type="text/javascript" th:src="@{jquery.min.js}">
+<script type="text/javascript" th:src="@{js/jquery.min.js}">
 	
 </script>
 
@@ -15,10 +17,24 @@
 	
 </script>
 
+<script>
+
+	$(document).ready(function() {
+	
+	$("#sidebar-btn").click(function() {
+	$("#sidebar").toggleClass("visible");	
+	
+	});
+});
+</script>
 
 </head>
 <body>
 
+
+	<div id="sidebarInclude" th:include="sidebarMenu"> 
+
+	</div>
 
 	<div class="container">
 
