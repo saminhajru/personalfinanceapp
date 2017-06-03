@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+
+#loginErrorMessage{
+	color: red; 
+	font: 10px;
+}
+
+#label-error {
+	color: red;
+}

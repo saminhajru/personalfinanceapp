@@ -20,9 +20,4 @@ public class LoginController {
 		
 		return "login";
 	}
-	
-	@RequestMapping("/sidebarMenu")
-	public String sidebar() {
-		return "sidebarMenu";
-	}
 }

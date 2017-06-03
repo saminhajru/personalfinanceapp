@@ -12,46 +12,19 @@
 </script>
 
 <script>
-
 	$(document).ready(function() {
-	
-	$("#sidebar-btn").click(function() {
-	$("#sidebar").toggleClass("visible");	
-	
+
+		$("#sidebar-btn").click(function() {
+			$("#sidebar").toggleClass("visible");
+
+		});
 	});
-});
 </script>
 
 </head>
 <body>
 
-
-
-	<div id="sidebar">
-
-		<ul>
-			<li>
-				<div sec:authorize="!isAuthenticated()">
-					<a th:href="@{/}"> Login </a>
-				</div>
-			</li>
-			<li><a th:href="@{register}"> Register </a></li>
-
-			<li>
-				<div sec:authorize="isAuthenticated()">
-					<form th:action="@{logout}" method="POST">
-						<input type="submit" value="LOGOUT" />
-					</form>
-				</div>
-			</li>
-
-		</ul>
-
-		<div id="sidebar-btn">
-			<span> </span> <span> </span> <span> </span>
-		</div>
-
-	</div>
+	<div id="sidebarInclude" th:include="sidebarMenu"></div>
 
 </body>
 </html>
