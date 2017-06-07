@@ -26,23 +26,30 @@
 	margin: 10px;
 	padding: 10px;
 	text-align: center;
+
+}
+
+#tableForDisplaySubcategories tr th{
+	vertical-align: middle;
+	text-align: center;
 }
 
 
 #tableForInputSubcategories tr th{
-	width: 300px;
 	margin: auto;
 	padding: auto;
+	vertical-align: middle;
+	text-align: center;
 }
+
 #tableForInputSubcategories{
-	width: 300px;
 	margin: auto;
 	padding: auto;
 }
 
 #tables  tr th img{
-	width: 150px; 
-	height: 150px;
+	width: 100px; 
+	height: 100px;
 }
 
 #tables table {
