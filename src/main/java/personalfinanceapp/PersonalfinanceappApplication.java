@@ -1,5 +1,7 @@
 package personalfinanceapp;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,5 +19,10 @@ public class PersonalfinanceappApplication {
 		ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();
 		rbms.setBasename("personalfinanceapp.messages.messages");
 		return rbms;
+	}
+	
+	@Bean
+	public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf) {
+		return hemf.getSessionFactory();
 	}
 }

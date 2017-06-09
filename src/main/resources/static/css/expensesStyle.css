@@ -1,0 +1,59 @@
+@CHARSET "ISO-8859-1";
+
+#tables {
+	font-size: 20px;
+	position: absolute; 
+	left: 20%; 
+	margin: auto;
+	padding: auto;
+	width: 600px;
+	text-align: center;
+	z-index: -1;
+}
+
+#tableForInputExpenses {
+	border: 2px solid black;
+}
+
+#tableForInputExpenses tr th{
+	margin: auto;
+	padding: 10px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#tableForInputExpenses tr th input{
+	width: 100px;
+}
+#tableForInputExpenses tr th textarea{
+	font-size: 15px;
+	width: 300px;
+	height: 100px;
+}
+
+#tableForDisplayingExpenses tr th {
+	border: 2px solid black;
+}
+
+#tableForDisplayingExpenses tr th{
+	margin: auto;
+	padding: 10px;
+	vertical-align: middle;
+	text-align: center;
+	
+}
+
+#descriptionDiv {
+	margin: auto;
+	padding: 10px;
+	vertical-align: middle;
+	text-align: center;
+    width: 200px;
+    height:50px;
+    overflow-x: auto;
+}
+
+#tableForDisplayingExpenses thead tr th {
+	border: 4px solid black;
+	font-size: 30px;
+}

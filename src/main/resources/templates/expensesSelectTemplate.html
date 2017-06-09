@@ -1,0 +1,6 @@
+<th th:if="${subcategories} != null">
+<select id="subcategory" class="center-block">
+	<option th:each="sub : ${subcategories}" th:value="${sub}"
+		th:text="${sub}"></option>
+</select>
+</th>

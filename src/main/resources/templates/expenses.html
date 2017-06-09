@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.com">
+<head>
+<meta charset="ISO-8859-1" />
+<meta th:content="${_csrf.token}" id="token_csrf" />
+<title>Expenses</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{css/expensesStyle.css}"/>
+<link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+
+<script>
+
+	$(document).ready(function() {
+	$("#sidebar-btn").click(function() {
+	$("#sidebar").toggleClass("visible");	
+	
+	});
+});
+</script>
+
+<script>
+	
+$(document).ready(function() {
+	
+	var token = $("#token_csrf").attr("content");
+	
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("X-CSRF-TOKEN", token);
+		}
+	});
+	
+	
+	$("#categoryRow").blur(function() {
+		
+		$("#subcategoryRow").empty();
+		
+		var category = $("#categoryRow").val();
+		
+		$.ajax({
+			url: "/sendingCategory",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({"category" : category}),
+			success: function(data)
+			{
+				$("#subcategoryRow").append(data);
+			},
+			error: function()
+			{
+				alert("Error");
+			}
+			
+		});
+		
+	});
+	
+	$("#saveExpense").click(function() {
+		
+		var category = $("#categoryRow").val();
+		var subcategory = $("#subcategory").val();
+		var amount = $("#amountOfExpense").val();
+		var description = $("#description").val();
+		var date = new Date();
+		var formattedDate = date.toLocaleDateString();
+				
+		$.ajax({
+			url: "/sendingExpense",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify( {
+				"category" : category,
+				"subcategory" : subcategory,
+				"amount" : amount,
+				"description" : description,
+				"formattedDate" : formattedDate
+		}),
+			success: function(data)
+			{
+				$("#tableForDisplayingExpenses").append(data);
+			},
+			error: function()
+			{
+				alert("Error");
+			}
+			
+		});
+		
+	});
+	
+});
+	
+</script>
+
+</head>
+<body>
+
+ <div id="sidebarInclude" th:include="sidebarMenu"></div>
+ 
+ <div class="container">
+ 	
+ 	<div id="tables">
+ 	
+ 	
+ 	<table id="tableForInputExpenses" class="table table-striped col-md-6" >
+ 	
+ 		<tr>
+ 			<th>
+ 				<h2> Add new expense </h2>
+			</th>			
+ 		</tr>
+ 	
+ 		<tr>
+ 			<th>
+ 				<select id="categoryRow" class="center-block">
+					<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+				</select>
+			</th>			
+ 		</tr>
+ 		
+ 		<tr id="subcategoryRow">
+ 					
+ 		</tr>
+ 		
+ 		<tr>
+ 			<th>
+ 				<input type="text" id="amountOfExpense" name="amountOfExpense" placeholder="amount" maxlength="7"/>
+			</th>			
+ 		</tr>
+ 		
+ 		<tr>
+ 			<th>
+ 				<div class="form-group">
+ 				<label for="description" > Description </label>
+ 				<textarea class="form-control center-block" cols="20" rows="3"  maxlength="250" id="description"> </textarea>
+ 				</div>
+			</th>			
+ 		</tr>
+ 		
+ 		<tr>
+ 			<th>
+ 				<button id="saveExpense" class="btn btn-large btn-primary center-block"> SAVE </button>
+			</th>			
+ 		</tr>
+ 	
+ 	</table>	
+ 	
+ 	<table id="tableForDisplayingExpenses" th:if="${expenses} != null" class="table table-striped col-md-6">
+ 		<thead>
+ 		<tr>
+ 			<th> Subcategory </th>
+ 			<th> Amount</th>
+ 			<th> Description </th>
+ 		</tr>
+ 		</thead>
+ 		
+ 		<tr th:each="exp : ${expenses}">
+ 			
+ 			<th th:text="${exp.getSubcategoryName()}"> </th>
+ 			<th th:text="${exp.getAmount()}"> </th>
+ 			<th><div id="descriptionDiv"  th:text="${exp.getDescription()}"></div></th>
+			
+ 		</tr>
+ 		
+ 	</table>
+ 
+ 	</div>
+ </div>
+
+</body>
+</html>

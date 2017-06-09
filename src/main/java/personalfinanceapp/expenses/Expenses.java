@@ -1,0 +1,116 @@
+package personalfinanceapp.expenses;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import personalfinanceapp.categories.Subcategory;
+
+@Entity
+public class Expenses {
+	@Id
+	@GeneratedValue
+	private int expensesId;
+	@ManyToOne
+	@JoinColumn(name = "subcategory")
+	private Subcategory subcategory;
+	private String category;
+	private double amountOfExpense;
+	private String description;
+	private String username;
+	@Temporal(TemporalType.DATE)
+	private Date dateOFMakingtheExpense;
+	
+	public Expenses() {
+		
+	}
+	
+	public Expenses(Subcategory subcategory) {
+		this.subcategory = subcategory;
+	}
+
+	public Expenses(int expensesId, Subcategory subcategory, String category, double amountOfExpense,
+			String description, String user, Date dateOFMakingtheExpense) {
+		this.expensesId = expensesId;
+		this.subcategory = subcategory;
+		this.category = category;
+		this.amountOfExpense = amountOfExpense;
+		this.description = description;
+		this.username = user;
+		this.dateOFMakingtheExpense = dateOFMakingtheExpense;
+	}
+
+	public int getExpensesId() {
+		return expensesId;
+	}
+
+	public void setExpensesId(int expensesId) {
+		this.expensesId = expensesId;
+	}
+
+	public Subcategory getSubcategory() {
+		return subcategory;
+	}
+	
+	public String getSubcategoryName() {
+		return subcategory.getName();
+	}
+
+	public void setSubcategory(Subcategory subcategory) {
+		this.subcategory = subcategory;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public double getAmount() {
+		return amountOfExpense;
+	}
+
+	public void setAmount(double amount) {
+		this.amountOfExpense = amount;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getUser() {
+		return username;
+	}
+
+	public void setUser(String user) {
+		this.username = user;
+	}
+
+	public Date getDate() {
+		return dateOFMakingtheExpense;
+	}
+
+	public void setDate(Date date) {
+		this.dateOFMakingtheExpense = date;
+	}
+
+	@Override
+	public String toString() {
+		return "Expenses [expensesId=" + expensesId + ", subcategory=" + subcategory + ", category=" + category
+				+ ", amountOfExpense=" + amountOfExpense + ", description=" + description + ", user=" + username
+				+ ", dateOFMakingtheExpense=" + dateOFMakingtheExpense + "]";
+	}
+
+}

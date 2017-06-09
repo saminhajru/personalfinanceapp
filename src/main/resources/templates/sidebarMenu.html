@@ -18,6 +18,10 @@
 			<li sec:authorize="isAuthenticated()">
 					<a th:href="@{subcategories}"> Subcategories </a>
 			</li>
+			
+			<li sec:authorize="isAuthenticated()">
+					<a th:href="@{expenses}"> Expenses </a>
+			</li>
 
 			<li  sec:authorize="isAuthenticated()" style=" pointer: cursor;">
 					<form th:action="@{logout}" method="POST">

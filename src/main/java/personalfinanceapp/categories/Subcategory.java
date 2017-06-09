@@ -13,7 +13,7 @@ import personalfinanceapp.user.User;
 public class Subcategory {
 
 	@Id
-	private String name;
+	private String subcategory;
 	private String category;
 	@ManyToOne
 	@JoinColumn(name = "username")
@@ -24,18 +24,18 @@ public class Subcategory {
 	}
 
 	public Subcategory(String name, String category, User user) {
-		this.name = name;
+		this.subcategory = name;
 		this.category = category;
 		this.user = user;
 
 	}
 
 	public String getName() {
-		return name;
+		return subcategory;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.subcategory = name;
 	}
 
 	public String getCategory() {
@@ -54,4 +54,9 @@ public class Subcategory {
 		this.user = user;
 	}
 
+	@Override
+	public String toString() {
+		return "Subcategory [name=" + subcategory + ", category=" + category + ", user=" + user + "]";
+	}
+	
 }
