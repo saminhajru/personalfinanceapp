@@ -34,7 +34,7 @@ $(document).ready(function() {
 	});
 	
 	
-	$("#categoryRow").blur(function() {
+	$("#categoryRow").on("change", function() {
 		
 		$("#subcategoryRow").empty();
 		
@@ -105,7 +105,7 @@ $(document).ready(function() {
  	<div id="tables">
  	
  	
- 	<table id="tableForInputExpenses" class="table table-striped col-md-6" >
+ 	<table id="tableForInputExpenses" class="table table-responsive col-sm-2 col-md-6 col-lg-8" >
  	
  		<tr>
  			<th>
@@ -147,16 +147,22 @@ $(document).ready(function() {
  		</tr>
  	
  	</table>	
- 	
- 	<table id="tableForDisplayingExpenses" th:if="${expenses} != null" class="table table-striped col-md-6">
- 		<thead>
- 		<tr>
- 			<th> Subcategory </th>
- 			<th> Amount</th>
- 			<th> Description </th>
- 		</tr>
+	
+	<div id="tableForDisplay">
+	<table id="tableForDisplayingExpensesHeader" th:if="${expenses} != null" class="table table-responsive col-sm-2 col-md-6 col-lg-8">
+	
+		<thead>
+ 			<tr>
+ 				<th> Subcategory </th>
+ 				<th> Amount</th>
+ 				<th> Description </th>
+ 			</tr>
  		</thead>
- 		
+	
+	</table>
+	
+ 	<table id="tableForDisplayingExpenses" th:if="${expenses} != null" class="table table-responsive col-sm-2 col-md-6 col-lg-8">
+ 	 		
  		<tr th:each="exp : ${expenses}">
  			
  			<th th:text="${exp.getSubcategoryName()}"> </th>
@@ -166,9 +172,12 @@ $(document).ready(function() {
  		</tr>
  		
  	</table>
- 
+ 	
  	</div>
- </div>
+ 	
+ 	</div>
+ 	
+ 	</div>
 
 </body>
 </html>

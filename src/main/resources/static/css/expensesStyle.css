@@ -9,15 +9,15 @@
 	width: 600px;
 	text-align: center;
 	z-index: -1;
+	border-collapse: collapse;
 }
 
 #tableForInputExpenses {
-	border: 2px solid black;
+	border: 4px solid black;
 }
 
 #tableForInputExpenses tr th{
 	margin: auto;
-	padding: 10px;
 	vertical-align: middle;
 	text-align: center;
 }
@@ -31,8 +31,13 @@
 	height: 100px;
 }
 
-#tableForDisplayingExpenses tr th {
-	border: 2px solid black;
+
+#tableForDisplayingExpenses {
+	display: block;
+	height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	
 }
 
 #tableForDisplayingExpenses tr th{
@@ -40,7 +45,8 @@
 	padding: 10px;
 	vertical-align: middle;
 	text-align: center;
-	
+	width: 200px;
+	border: 2px solid black;
 }
 
 #descriptionDiv {
@@ -53,7 +59,30 @@
     overflow-x: auto;
 }
 
-#tableForDisplayingExpenses thead tr th {
-	border: 4px solid black;
-	font-size: 30px;
+#tableForDisplayingExpensesHeader tr th {
+	margin: auto;
+	padding: 10px;
+	vertical-align: middle;
+	text-align: center;
+	border: 2px solid black;
+}
+
+#tableForDisplayingExpensesHeader {
+	margin-left: 14px;
+	width: 554px;
+	margin-top: 50px;
+	color: white;
+	background-color: black;
+}
+
+#tableForDisplayingExpensesHeader th:nth-child(1) {
+	width: 176px;
+}
+
+#tableForDisplayingExpensesHeader th:nth-child(2) {
+	width: 180px;
+}
+
+#tableForDisplayingExpensesHeader th:nth-child(3) {
+	width: 245px;
 }
