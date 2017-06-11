@@ -10,7 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import personalfinanceapp.categories.Subcategory;
+
+class Views {
+	public interface Summary {};
+}
 
 @Entity
 public class Expenses {
@@ -21,9 +27,12 @@ public class Expenses {
 	@JoinColumn(name = "subcategory")
 	private Subcategory subcategory;
 	private String category;
+	@JsonView(Views.Summary.class)
 	private double amountOfExpense;
 	private String description;
 	private String username;
+	
+	@JsonView(Views.Summary.class)
 	@Temporal(TemporalType.DATE)
 	private Date dateOFMakingtheExpense;
 	

@@ -40,6 +40,4 @@ public class ExpensesService {
 		
 		return query.list();
 	}
-	
-	
 }
