@@ -60,7 +60,7 @@
 }
 
 #tableForDisplayingExpensesHeader tr th {
-	margin: auto;
+	margin: 30px;
 	padding: 10px;
 	vertical-align: middle;
 	text-align: center;

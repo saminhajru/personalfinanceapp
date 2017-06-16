@@ -66,7 +66,9 @@ $(document).ready(function() {
 		var description = $("#description").val();
 		var date = new Date();
 		var formattedDate = date.toLocaleDateString();
-				
+		
+		alert(formattedDate);
+			
 		$.ajax({
 			url: "/sendingExpense",
 			type: "POST",
@@ -77,7 +79,7 @@ $(document).ready(function() {
 				"amount" : amount,
 				"description" : description,
 				"formattedDate" : formattedDate
-		}),
+			}),
 			success: function(data)
 			{
 				$("#tableForDisplayingExpenses").append(data);
@@ -101,7 +103,7 @@ $(document).ready(function() {
  <div id="sidebarInclude" th:include="sidebarMenu"></div>
  
  <div class="container">
- 	
+	
  	<div id="tables">
  	
  	

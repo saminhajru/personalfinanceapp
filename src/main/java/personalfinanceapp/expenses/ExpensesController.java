@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 import personalfinanceapp.categories.Categories;
 import personalfinanceapp.categories.Subcategory;
@@ -79,5 +83,25 @@ public class ExpensesController {
 		model.addAttribute("expense", expense);
 				
 		return "expensesDisplayTemplate";
+	}
+	
+	
+	@RequestMapping(value="/getExpensesAmountAndDate", method= RequestMethod.GET, produces="application/json")
+	private @ResponseBody List<ExpensesDTO> getExpensesAmountAndDate(Principal principal) throws ParseException {
+		
+		List<ExpensesDTO> expenses = new ArrayList<ExpensesDTO>();
+		
+		if(principal != null) {
+			
+			expenses = expenseService.getAllExpensesDTOForUserAndCurrentMonth(principal.getName());
+	
+		}	
+		
+		return expenses;
+	}
+	
+	@RequestMapping(value="/expensesGraphView", method= RequestMethod.GET)
+	private String expensesGraphView() {
+		return "expensesGraphView";
 	}
 }
