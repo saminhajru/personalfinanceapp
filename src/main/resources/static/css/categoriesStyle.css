@@ -21,7 +21,6 @@
 
 #tableForDisplaySubcategories {
 	font-size: 20px;
-	margin-top: 100px;
 	padding: 10px;
 	z-index: -1;
 }
@@ -40,9 +39,22 @@
 	border: 2px solid black;
 }
 
-#tableForDisplaySubcategories thead tr th {
+#tableForDisplayingSubcategoriesBody {
+	height: 355px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#tableForDisplaySubcategoriesHead {
+	background-color: black;
+	margin-top: 100px;
+	color: white;
+	margin-bottom: -1px;
+}
+
+#tableForDisplaySubcategoriesHead thead tr th {
 	border: 2px solid black;
-	text-align: center;	
+	text-align: center;
 }
 
 #buttonForAddingSubcategory {
@@ -53,7 +65,4 @@
 	margin-top: 40px;
 	margin-left: 80px;
 }
-
-
-
 

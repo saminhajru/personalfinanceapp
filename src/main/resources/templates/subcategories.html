@@ -114,23 +114,27 @@
 			</div>
 		</div>
 			
-			
+			<div id="tableThatDisplaysSubcategories">
 				
-					<div class="row">
-					<table class="table table-responsive" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
+					<table class="table table-responsive" id="tableForDisplaySubcategoriesHead">
 						<thead>	
 							<tr>
 								<th colspan="2"> <h2>All subcategories </h2> </th>
 							</tr>
 						</thead>
-		
+					</table>
+					
+			<div id="tableForDisplayingSubcategoriesBody">		
+					<table class="table table-responsive" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
+					
 						<tr th:each="subcat : ${subcategories}">
-							<th class="col-md-4" th:text="${subcat.getName()}"></th>
-							<th class="col-md-4">
+							<th  th:text="${subcat.getName()}"></th>
+							<th>
 								<img th:src="@{'images/svg/' + '' + ${subcat.getCategory()} + ''  + '.svg'}" />
 							</th>
 						</tr>
 					</table>
+			</div>
 			</div>
 	</div>
 </body>
