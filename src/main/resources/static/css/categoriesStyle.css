@@ -48,14 +48,12 @@
 #buttonForAddingSubcategory {
 	margin-top: 20px;
 }
+
 #modalForAddingSubcategory {
 	margin-top: 40px;
 	margin-left: 80px;
 }
 
-.container {
-	width: 800px;
-	position: absolute;
-	left: 30%;
-}
+
+
 
