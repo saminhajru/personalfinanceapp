@@ -64,62 +64,74 @@
 <div id="sidebarInclude" th:include="sidebarMenu"></div>
 	
 	<div class="container">
-	
-	<div id="tables">
-	
-	<table class="table table-striped col-sm-2 col-md-6 col-lg-12" id="tableForInputSubcategories">
 		
-		<tr>
-			<th>
-			<h2> Add new subcategory </h2> 
-			</th>
-		</tr>
-		
-		<tr>
-			<th> 
-				<select id="category" class="center-block">
-					<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
-				</select>			
-			</th>
-		</tr>
-		
-		<tr>
-			<th> 
-				<div class="form-group">
-					<label for="nameOfTheSubcategory" class="control-label"> Name of the subcategory </label> <br/>
-					<input type="text" id="nameOfTheSubcategory" name="nameOfTheSubcategor" class="form-control col-md-4"/>		
-				</div>	
-			</th>
-		</tr>
-		
-		<tr>
-			<th> 
-				<button id="saveBtn" class="btn btn-large btn-primary center-block"> SAVE </button>	
-			</th>
-		</tr>
-		
-	</table>
-	
-	<table class="table  table-striped col-sm-2 col-md-6 col-lg-12" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
-		
-		<tr>	
-			<h2> All subcategories </h2>
-		</tr>
-		
-		<tr th:each="subcat : ${subcategories}">
+		<div>
+			<button type="button" class="btn btn-primary btn-lg center-block" data-toggle="modal" data-target="#modalForAddingSubcategory" id="buttonForAddingSubcategory">
+				Add new subcategory
+			</button>
+		</div>
 			
-			<th th:text="${subcat.getName()}"></th>
+		<div class="modal fade" id="modalForAddingSubcategory">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					
+					<div class="modal-header">
+						<h2> Add new subcategory </h2>
+					</div>
+					
+					<div class="modal-body">
+							<table class="table">
+								<tr>
+									<th> 
+										<select id="category" class="center-block">
+												<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+										</select>			
+									</th>
+								</tr>
 		
-			<th>
-				<img th:src="@{'images/svg/' + '' + ${subcat.getCategory()} + ''  + '.svg'}" />
-			</th>
-		</tr>
+								<tr>
+									<th> 
+										 	<div class="form-group">
+												<label for="nameOfTheSubcategory" class="control-label"> Name of the subcategory </label> <br/>
+												<input type="text" id="nameOfTheSubcategory" name="nameOfTheSubcategor" class="form-control"/>		
+										 	</div>	
+									</th>
+								</tr>
+		
+								<tr>
+									<th> 
+										<button id="saveBtn" class="btn btn-large btn-primary center-block"> SAVE </button>	
+									</th>
+								</tr>
+				
+							</table>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"> close </button>
+					</div>
+				</div>
+			</div>
+		</div>
 			
-	</table>
-	
+			
+				
+				<div class="row justify-content-center">
+					<table class="table table-responsive" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
+						<thead>	
+							<tr>
+								<th colspan="2"> <h2>All subcategories </h2> </th>
+							</tr>
+						</thead>
+		
+						<tr th:each="subcat : ${subcategories}">
+							<th class="col-md-4" th:text="${subcat.getName()}"></th>
+							<th class="col-md-4">
+								<img th:src="@{'images/svg/' + '' + ${subcat.getCategory()} + ''  + '.svg'}" />
+							</th>
+						</tr>
+					</table>
+				</div>		
 	</div>
-
-	</div>
-	
 </body>
 </html>
