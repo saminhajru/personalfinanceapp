@@ -42,7 +42,7 @@
 #tableForDisplayingSubcategoriesBody {
 	height: 355px;
 	overflow-y: auto;
-	overflow-x: hidden;
+	overflow-x: auto;
 }
 
 #tableForDisplaySubcategoriesHead {

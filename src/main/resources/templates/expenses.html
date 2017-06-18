@@ -103,83 +103,95 @@ $(document).ready(function() {
  <div id="sidebarInclude" th:include="sidebarMenu"></div>
  
  <div class="container">
-	
- 	<div id="tables">
+ 	
+ 	<button id="buttonForAddingExpenses" type="button" class="btn btn-primary btn-lg center-block" data-toggle="modal" data-target="#modalForAddingExpense"> Add new expense </button>
  	
  	
- 	<table id="tableForInputExpenses" class="table table-responsive col-sm-2 col-md-6 col-lg-8" >
+ 	<div class="modal fade" id="modalForAddingExpense">
  	
- 		<tr>
- 			<th>
- 				<h2> Add new expense </h2>
-			</th>			
- 		</tr>
+ 		<div class="modal-dialog">
  	
- 		<tr>
- 			<th>
- 				<select id="categoryRow" class="center-block">
-					<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
-				</select>
-			</th>			
- 		</tr>
- 		
- 		<tr id="subcategoryRow">
- 					
- 		</tr>
- 		
- 		<tr>
- 			<th>
- 				<input type="text" id="amountOfExpense" name="amountOfExpense" placeholder="amount" maxlength="7"/>
-			</th>			
- 		</tr>
- 		
- 		<tr>
- 			<th>
- 				<div class="form-group">
- 				<label for="description" > Description </label>
- 				<textarea class="form-control center-block" cols="20" rows="3"  maxlength="250" id="description"> </textarea>
+ 			<div class="modal-content">
+ 				<div class="modal-header"> 
+ 					<h2> Add new expense </h2> 
  				</div>
-			</th>			
- 		</tr>
+ 				
+ 				<div class="modal-body">
+ 				
+ 					<table  class="table table-responsive" >
+ 						<tr>
+ 							<th>
+ 								<select id="categoryRow" class="center-block">
+									<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+								</select>
+							</th>			
+ 					   </tr>
  		
- 		<tr>
- 			<th>
- 				<button id="saveExpense" class="btn btn-large btn-primary center-block"> SAVE </button>
-			</th>			
- 		</tr>
+ 						<tr id="subcategoryRow">
+ 						</tr>
+ 		
+ 						<tr>
+ 							<th>
+ 								<div class="form-group">
+ 								<label for="amountOfExpense" class="control-label "> Amount of expenses </label>
+ 								<input class="form-control" type="text" id="amountOfExpense" name="amountOfExpense" maxlength="7"/>
+ 								</div>
+							</th>			
+ 						</tr>
+ 		
+ 						<tr>
+ 							<th>
+ 								<div class="form-group">
+ 									<label for="description" class="control-label"> Description </label>
+ 										<textarea class="form-control" cols="20" rows="3"  maxlength="250" id="description"> </textarea>
+ 								</div>
+							</th>			
+ 						</tr>
+ 		
+ 						<tr>
+ 							<th>
+ 								<button id="saveExpense" class="btn btn-large btn-primary center-block"> SAVE </button>
+							</th>			
+ 						</tr>
+ 					</table>	
+ 				
+ 				</div>
+ 				
+ 				<div class="modal-footer">
+ 					<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+ 				</div>
+ 			</div>
+ 		</div>
  	
- 	</table>	
+ 	</div>
+ 	
+ 	<div id="tableForDisplayExpenses">
+ 	
+		<table id="tableForDisplayExpensesHead" th:if="${expenses} != null" class="table table-responsive">
+			<thead>
+ 				<tr>
+ 					<th>  Subcategory  </th>
+ 					<th>  Amount </th>
+ 					<th>  Description  </th>
+ 				</tr>
+ 			</thead>
+		</table>
 	
-	<div id="tableForDisplay">
-	<table id="tableForDisplayingExpensesHeader" th:if="${expenses} != null" class="table table-responsive col-sm-2 col-md-6 col-lg-8">
-	
-		<thead>
- 			<tr>
- 				<th> Subcategory </th>
- 				<th> Amount</th>
- 				<th> Description </th>
- 			</tr>
- 		</thead>
-	
-	</table>
-	
- 	<table id="tableForDisplayingExpenses" th:if="${expenses} != null" class="table table-responsive col-sm-2 col-md-6 col-lg-8">
- 	 		
- 		<tr th:each="exp : ${expenses}">
+		<div id="tableForDisplayExpensesBodyContainer">
+		
+ 			<table th:if="${expenses} != null" class="table table-responsive">		
+ 				<tr th:each="exp : ${expenses}">
+ 					<th th:text="${exp.getSubcategoryName()}"> </th>
+ 					<th th:text="${exp.getAmount()}"> </th>
+ 					<th><div id="descriptionDiv"  th:text="${exp.getDescription()}"></div></th>
+ 				</tr>
+ 			</table>
  			
- 			<th th:text="${exp.getSubcategoryName()}"> </th>
- 			<th th:text="${exp.getAmount()}"> </th>
- 			<th><div id="descriptionDiv"  th:text="${exp.getDescription()}"></div></th>
-			
- 		</tr>
+ 		</div>
  		
- 	</table>
- 	
  	</div>
  	
  	</div>
  	
- 	</div>
-
 </body>
 </html>
