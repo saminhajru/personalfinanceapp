@@ -18,7 +18,7 @@ import personalfinanceapp.user.User;
 
 @Controller
 public class CategoriesController {
-	
+
 	@Autowired
 	private SubcategoryService subcategoryService;
 
@@ -39,37 +39,47 @@ public class CategoriesController {
 		Categories[] categories = Categories.values();
 
 		model.addAttribute("categories", categories);
-		
-		if(principal != null) {
-		List<Subcategory> subcategories = subcategoryService.getAllSubcategoriesFromUser(principal.getName());
-		
-		if(!subcategories.isEmpty()) {
-			model.addAttribute("subcategories", subcategories);
-		} 
+
+		if (principal != null) {
+			List<Subcategory> subcategories = subcategoryService.getAllSubcategoriesFromUser(principal.getName());
+
+			if (!subcategories.isEmpty()) {
+				model.addAttribute("subcategories", subcategories);
+			}
 		} else {
 			return "login";
 		}
-		
+
 		return "subcategories";
 	}
 
-	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method=RequestMethod.POST)
-	public String saveSubcategory(@RequestBody HashMap<String, String> categoryAndSubcategory, Principal principal, Model model) {
-		
-		if(principal != null){
-		
-		User user = new User();
-		user.setUsername(principal.getName());
-		Subcategory subcategory = new Subcategory(categoryAndSubcategory.get("nameOfTheSubcategory"), categoryAndSubcategory.get("category"), user);
-		
-		subcategoryService.saveSubcategory(subcategory);
-		
-		model.addAttribute("nameOfTheSubcategory", categoryAndSubcategory.get("nameOfTheSubcategory"));	
-		String image = "images/svg/" + "" + categoryAndSubcategory.get("category") + "" + ".svg";
-		model.addAttribute("image", image);
-		}	else {
+	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method = RequestMethod.POST)
+	public String saveSubcategory(@RequestBody HashMap<String, String> categoryAndSubcategory, Principal principal,
+			Model model) {
+
+		if (principal != null) {
+			
+			String nameOfTheSubcategory = categoryAndSubcategory.get("nameOfTheSubcategory");
+			String category = categoryAndSubcategory.get("category");
+			String color =  categoryAndSubcategory.get("color");
+
+			User user = new User();
+			user.setUsername(principal.getName());
+			Subcategory subcategory = new Subcategory(nameOfTheSubcategory, category, user, color);
+
+			subcategoryService.saveSubcategory(subcategory);
+
+			model.addAttribute("nameOfTheSubcategory", categoryAndSubcategory.get("nameOfTheSubcategory"));
+			String image = "images/svg/" + "" + categoryAndSubcategory.get("category") + "" + ".svg";
+			model.addAttribute("image", image);
+			
+			String colorForBackgroundStyle = "background-color : " + "" + categoryAndSubcategory.get("color");
+			model.addAttribute("color", colorForBackgroundStyle);
+			
+		} else {
 			return "login";
 		}
 		return "subcategoryTableTemplate";
 	}
-	}
+
+}

@@ -18,6 +18,7 @@ public class Subcategory {
 	@ManyToOne
 	@JoinColumn(name = "username")
 	private User user;
+	private String color;
 
 	public Subcategory() {
 
@@ -27,7 +28,13 @@ public class Subcategory {
 		this.subcategory = name;
 		this.category = category;
 		this.user = user;
+	}
 
+	public Subcategory(String name, String category, User user, String color) {
+		this.subcategory = name;
+		this.category = category;
+		this.user = user;
+		this.color = color;
 	}
 
 	public String getName() {
@@ -54,9 +61,26 @@ public class Subcategory {
 		this.user = user;
 	}
 
+	public String getSubcategory() {
+		return subcategory;
+	}
+
+	public void setSubcategory(String subcategory) {
+		this.subcategory = subcategory;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	@Override
 	public String toString() {
-		return "Subcategory [name=" + subcategory + ", category=" + category + ", user=" + user + "]";
+		return "Subcategory [subcategory=" + subcategory + ", category=" + category + ", user=" + user + ", color="
+				+ color + "]";
 	}
-	
+
 }

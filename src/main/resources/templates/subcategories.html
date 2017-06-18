@@ -6,57 +6,17 @@
 
 <title>Subcategories</title>
 
+<link rel="stylesheet" type="text/css" href="colorpicker/css/colorpicker.css" />
 <link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{css/categoriesStyle.css}" />
 <link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/categoriesStyle.css}" />
 <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
-
-<script>
-
-	$(document).ready(function() {
-	
-	$("#sidebar-btn").click(function() {
-	$("#sidebar").toggleClass("visible");	
-	
-	});
-});
-</script>
-
-<script>
-
-	$(document).ready(function() {
-		
-		var token = $("#csrf_token").attr("content");
-		
-		$.ajaxSetup({
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("X-CSRF-TOKEN", token);
-			}
-		});
-				
-		
-		$("#saveBtn").click(function() {
-			
-			var nameOfTheSubcategory = $("#nameOfTheSubcategory").val();
-			var category = $("#category").val();
-
-			
-			$.ajax({
-				url: "/saveSubcategory",
-				type: "POST",
-				data: JSON.stringify({"nameOfTheSubcategory" :  nameOfTheSubcategory, "category" : category}),
-				contentType: "application/json",
-				success: function(data) {
- 					$("#tableForDisplaySubcategories").append(data);
-				},
-				error:  function(){alert("Please log in to add subcategory");}
-				
-			});
-		});
-	});
-</script>
+<script type="text/javascript" src="colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="js/colorPickerQuery.js"></script>
+<script type="text/javascript" src="js/sidebar.js"></script>
+<script type="text/javascript" src="js/subcategoryAjaxPost.js"></script>
 
 </head>
 <body>
@@ -83,9 +43,12 @@
 							<table class="table">
 								<tr>
 									<th> 
-										<select id="category" class="center-block">
-												<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
-										</select>			
+										<div class="form-group">
+											<label for="category" class="control-label"> Category </label>
+												<select id="category" class="center-block">
+													<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+												</select>		
+										</div>
 									</th>
 								</tr>
 		
@@ -97,10 +60,21 @@
 										 	</div>	
 									</th>
 								</tr>
+								
+								<tr>
+									<th> 
+										<div class="form-group">
+											<button id="colorPicker" class="btn btn-large btn-info center-block"> PICK COLOR </button>
+											<input type="hidden" id="chosenColor" value="" />	
+										</div>
+									</th>
+								</tr>
 		
 								<tr>
 									<th> 
-										<button id="saveBtn" class="btn btn-large btn-primary center-block"> SAVE </button>	
+										<div class="form-group">
+											<button id="saveBtn" class="btn btn-large btn-primary center-block" value="" > SAVE </button>	
+										</div>
 									</th>
 								</tr>
 				
@@ -127,7 +101,8 @@
 			<div id="tableForDisplayingSubcategoriesBody">		
 					<table class="table table-responsive" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
 					
-						<tr th:each="subcat : ${subcategories}">
+						<tr th:each="subcat : ${subcategories}" th:style="'background-color :' + '' + ${subcat.getColor()} ">
+	
 							<th  th:text="${subcat.getName()}"></th>
 							<th>
 								<img th:src="@{'images/svg/' + '' + ${subcat.getCategory()} + ''  + '.svg'}" />
@@ -137,5 +112,6 @@
 			</div>
 			</div>
 	</div>
+	
 </body>
 </html>
