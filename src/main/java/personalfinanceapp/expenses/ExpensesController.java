@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -97,8 +98,7 @@ public class ExpensesController {
 
 		model.addAttribute("expense", expense);
 
-		File directoryForSavingImage = new File(
-				"C:/Users/Samin/Documents/workspace-sts-3.8.4.RELEASE/personalfinanceapp/src/main/resources/static/images/"
+		File directoryForSavingImage = new File(System.getProperty("user.dir")  + "/src/main/resources/static/images/"
 						+ principal.getName() + "/" + categoryRow + "/" + subcategory + "/");
 
 		if (!directoryForSavingImage.isDirectory()) {
@@ -114,7 +114,7 @@ public class ExpensesController {
 		Path path = Paths.get(UPLOADED_FOLDER);
 
 		Files.write(path, bytes);
-
+		
 		return "expensesDisplayTemplate";
 
 	}
