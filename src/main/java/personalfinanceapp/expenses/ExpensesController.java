@@ -109,9 +109,7 @@ public class ExpensesController {
 
 		byte[] bytes = photo.getBytes();
 
-		String UPLOADED_FOLDER = fileToSaveImage.toString();
-
-		Path path = Paths.get(UPLOADED_FOLDER);
+		Path path = Paths.get(fileToSaveImage.toString());
 
 		Files.write(path, bytes);
 		
