@@ -5,193 +5,121 @@
 <meta th:content="${_csrf.token}" id="token_csrf" />
 <title>Expenses</title>
 
-<link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{css/expensesStyle.css}"/>
-<link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{css/expensesStyle.css}" />
+<link type="text/css" rel="stylesheet"
+	th:href="@{bootstrap/css/bootstrap.min.css}" />
 <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
-
-<script>
-
-	$(document).ready(function() {
-	$("#sidebar-btn").click(function() {
-	$("#sidebar").toggleClass("visible");	
-	
-	});
-});
-</script>
-
-<script>
-	
-$(document).ready(function() {
-	
-	var token = $("#token_csrf").attr("content");
-	
-	$.ajaxSetup({
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("X-CSRF-TOKEN", token);
-		}
-	});
-	
-	
-	$("#categoryRow").on("change", function() {
-		
-		$("#subcategoryRow").empty();
-		
-		var category = $("#categoryRow").val();
-		
-		$.ajax({
-			url: "/sendingCategory",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify({"category" : category}),
-			success: function(data)
-			{
-				$("#subcategoryRow").append(data);
-			},
-			error: function()
-			{
-				alert("Error");
-			}
-			
-		});
-		
-	});
-	
-	$("#saveExpense").click(function() {
-		
-		var category = $("#categoryRow").val();
-		var subcategory = $("#subcategory").val();
-		var amount = $("#amountOfExpense").val();
-		var description = $("#description").val();
-		var date = new Date();
-		var formattedDate = date.toLocaleDateString();
-		
-		alert(formattedDate);
-			
-		$.ajax({
-			url: "/sendingExpense",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify( {
-				"category" : category,
-				"subcategory" : subcategory,
-				"amount" : amount,
-				"description" : description,
-				"formattedDate" : formattedDate
-			}),
-			success: function(data)
-			{
-				$("#tableForDisplayingExpenses").append(data);
-			},
-			error: function()
-			{
-				alert("Error");
-			}
-			
-		});
-		
-	});
-	
-});
-	
-</script>
+<script type="text/javascript" th:src="@{js/sidebar.js}"></script>
+<script type="text/javascript" th:src="@{js/expenses.js}"></script>
 
 </head>
 <body>
 
- <div id="sidebarInclude" th:include="sidebarMenu"></div>
- 
- <div class="container">
- 	
- 	<button id="buttonForAddingExpenses" type="button" class="btn btn-primary btn-lg center-block" data-toggle="modal" data-target="#modalForAddingExpense"> Add new expense </button>
- 	
- 	
- 	<div class="modal fade" id="modalForAddingExpense">
- 	
- 		<div class="modal-dialog">
- 	
- 			<div class="modal-content">
- 				<div class="modal-header"> 
- 					<h2> Add new expense </h2> 
- 				</div>
- 				
- 				<div class="modal-body">
- 				
- 					<table  class="table table-responsive" >
- 						<tr>
- 							<th>
- 								<select id="categoryRow" class="center-block">
-									<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+	<div id="sidebarInclude" th:include="sidebarMenu"></div>
+
+	<div class="container">
+
+		<button id="buttonForAddingExpenses" type="button"
+			class="btn btn-primary btn-lg center-block" data-toggle="modal"
+			data-target="#modalForAddingExpense">Add new expense</button>
+
+
+		<div class="modal fade" id="modalForAddingExpense">
+
+			<div class="modal-dialog">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2>Add new expense</h2>
+					</div>
+
+					<div class="modal-body">
+
+						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+						
+							<div class="form-group">
+								<label for="categoryRow" class="control-label"> Choose category </label>
+								<select id="categoryRow" class="center-block" name="categoryRow">
+									<option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
 								</select>
-							</th>			
- 					   </tr>
- 		
- 						<tr id="subcategoryRow">
- 						</tr>
- 		
- 						<tr>
- 							<th>
- 								<div class="form-group">
- 								<label for="amountOfExpense" class="control-label "> Amount of expenses </label>
- 								<input class="form-control" type="text" id="amountOfExpense" name="amountOfExpense" maxlength="7"/>
- 								</div>
-							</th>			
- 						</tr>
- 		
- 						<tr>
- 							<th>
- 								<div class="form-group">
- 									<label for="description" class="control-label"> Description </label>
- 										<textarea class="form-control" cols="20" rows="3"  maxlength="250" id="description"> </textarea>
- 								</div>
-							</th>			
- 						</tr>
- 		
- 						<tr>
- 							<th>
- 								<button id="saveExpense" class="btn btn-large btn-primary center-block"> SAVE </button>
-							</th>			
- 						</tr>
- 					</table>	
- 				
- 				</div>
- 				
- 				<div class="modal-footer">
- 					<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
- 				</div>
- 			</div>
- 		</div>
- 	
- 	</div>
- 	
- 	<div id="tableForDisplayExpenses">
- 	
-		<table id="tableForDisplayExpensesHead" th:if="${expenses} != null" class="table table-responsive">
-			<thead>
- 				<tr>
- 					<th>  Subcategory  </th>
- 					<th>  Amount </th>
- 					<th>  Description  </th>
- 				</tr>
- 			</thead>
-		</table>
-	
-		<div id="tableForDisplayExpensesBodyContainer">
+							</div>
+
+							<div class="form-group">
+								<div id="subcategoryRow"></div>
+							</div>
+
+
+							<div class="form-group">
+								<label for="amountOfExpense" class="control-label ">
+									Amount of expenses </label> <input class="form-control" type="text"
+									id="amountOfExpense" name="amountOfExpense" maxlength="7" />
+							</div>
+
+
+							<div class="form-group">
+								<label for="description" class="control-label">
+									Description </label>
+								<textarea class="form-control" 
+									maxlength="250" id="description" name="description"> </textarea>
+							</div>
+							
+							<div class="form-group">
+								<label for="photoForExpense" class="control-label">
+									Upload photo for this expense </label> <input id="photoForExpense" name="photoForExpense"
+									class="form-label" type="file" />
+							</div>
+
+							<div class="form-group">
+								<button id="saveExpense"
+									class="btn btn-large btn-primary center-block" name="saveExpenses">SAVE</button>
+							</div>
+					
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+							</div>
+					
+					</form>
+					
+				</div>
+			</div>
+		</div>
+		</div>
 		
- 			<table th:if="${expenses} != null" class="table table-responsive">		
- 				<tr th:each="exp : ${expenses}">
- 					<th th:text="${exp.getSubcategoryName()}"> </th>
- 					<th th:text="${exp.getAmount()}"> </th>
- 					<th><div id="descriptionDiv"  th:text="${exp.getDescription()}"></div></th>
- 				</tr>
- 			</table>
- 			
- 		</div>
- 		
- 	</div>
- 	
- 	</div>
- 	
+
+
+		<div id="tableForDisplayExpenses">
+
+			<table id="tableForDisplayExpensesHead" th:if="${expenses} != null"
+				class="table table-responsive">
+				<thead>
+					<tr>
+						<th>Subcategory</th>
+						<th>Amount</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+			</table>
+
+			<div id="tableForDisplayExpensesBodyContainer">
+
+				<table th:if="${expenses} != null" class="table table-responsive">
+					<tr th:each="exp : ${expenses}">
+						<th th:text="${exp.getSubcategoryName()}"></th>
+						<th th:text="${exp.getAmount()}"></th>
+						<th><div id="descriptionDiv"
+								th:text="${exp.getDescription()}"></div></th>
+					</tr>
+				</table>
+
+			</div>
+
+		</div>
+
+	</div>
+
 </body>
 </html>
