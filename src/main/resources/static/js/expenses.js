@@ -37,8 +37,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 			var subcategory = $("#subcategory").val();
-			alert(subcategory);
-		
+			
 			var form = $("#fileUploadForm")[0];
 			
 			var formData = new FormData(form);
@@ -56,7 +55,8 @@ $(document).ready(function() {
 				timeout: 600000,
 			
 				success : function(data) {
-					alert("success");
+					$("#tableForDisplayExpensesBodyContainer table").append(data);
+					$("#modalForAddingExpense").modal("hide");
 				},
 				error : function() {
 					alert("Error");
