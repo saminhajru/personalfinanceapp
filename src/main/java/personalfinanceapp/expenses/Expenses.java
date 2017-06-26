@@ -30,6 +30,8 @@ public class Expenses {
 	@JsonView(Views.Summary.class)
 	private double amountOfExpense;
 	private String description;
+	
+	//TODO use User class instead of username 
 	private String username;
 	
 	@JsonView(Views.Summary.class)

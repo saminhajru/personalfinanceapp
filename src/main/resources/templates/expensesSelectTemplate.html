@@ -1,5 +1,5 @@
-<label for="subcategory" class="control-label"> Choose subcategory </label>
-<select th:if="${subcategories} != null" id="subcategory" class="center-block">
+<label for="subcategory" class="control-label"> Choose subcategory:  </label>
+<select th:if="${subcategories} != null" id="subcategory" class="form-control">
 	<option th:each="sub : ${subcategories}" th:value="${sub}"
 		th:text="${sub}"></option>
 </select>

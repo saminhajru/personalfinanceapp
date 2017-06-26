@@ -10,10 +10,16 @@
 	th:href="@{css/expensesStyle.css}" />
 <link type="text/css" rel="stylesheet"
 	th:href="@{bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{js/sidebar.js}"></script>
 <script type="text/javascript" th:src="@{js/expenses.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" th:src="@{jquery_validate/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{jquery_validate/additional-methods.min.js}"></script>
+<script type="text/javascript" th:src="@{js/searchValidateRules.js}"></script>
 
 </head>
 <body>
@@ -26,7 +32,6 @@
 			class="btn btn-primary btn-lg center-block" data-toggle="modal"
 			data-target="#modalForAddingExpense">Add new expense</button>
 
-
 		<div class="modal fade" id="modalForAddingExpense">
 
 			<div class="modal-dialog">
@@ -38,75 +43,143 @@
 
 					<div class="modal-body">
 
-						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-						
-							<div class="form-group">
-								<label for="categoryRow" class="control-label"> Choose category </label>
-								<select id="categoryRow" class="center-block" name="categoryRow">
+						<form method="POST" enctype="multipart/form-data"
+							id="fileUploadForm">
+							
+							<div class="row">
+								<div class="form-group col-xs-6">
+									<label for="categoryRow" class="control-label"> Choose category: </label> 
+									<select class="form-control" id="categoryRow" name="categoryRow">
 									<option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
-								</select>
-							</div>
+									</select>
+								</div>
 
-							<div class="form-group">
-								<div id="subcategoryRow"></div>
+								<div class="form-group col-xs-6">
+									<div id="subcategoryRow" class="center-block"></div>
+								</div>
 							</div>
-
 
 							<div class="form-group">
 								<label for="amountOfExpense" class="control-label ">
-									Amount of expenses </label> <input class="form-control" type="text"
+									Amount of expenses: </label> <input class="form-control" type="text"
 									id="amountOfExpense" name="amountOfExpense" maxlength="7" />
 							</div>
 
 
 							<div class="form-group">
 								<label for="description" class="control-label">
-									Description </label>
-								<textarea class="form-control" 
-									maxlength="250" id="description" name="description"> </textarea>
+									Description: </label>
+								<textarea class="form-control" maxlength="250" id="description"
+									name="description"> </textarea>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="photoForExpense" class="control-label">
-									Upload photo for this expense </label> <input id="photoForExpense" name="photoForExpense"
-									class="form-label" type="file" />
+									Upload photo for this expense </label> <input id="photoForExpense"
+									name="photoForExpense" class="form-label" type="file" />
 							</div>
 
 							<div class="form-group">
 								<button id="saveExpense"
-									class="btn btn-large btn-primary center-block" name="saveExpenses">SAVE</button>
+									class="btn btn-large btn-primary center-block"
+									name="saveExpenses">SAVE</button>
 							</div>
-					
+
 
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">CLOSE</button>
 							</div>
-					
-					</form>
-					
+
+						</form>
+
+					</div>
 				</div>
 			</div>
 		</div>
-		</div>
+
+	
 		
+			<div class="row">
+			
+			<div class="panel panel-default col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-3" id="panelForSearchExpense">
+				<div class="panel-heading"> Search Expense </div>
+					<div class="panel-body">
+					
+				<form method="POST" id="searchForm">
+							
+							<div class="row">
+								<div class="form-group col-xs-6">
+									<label for="categorySelect" class="control-label"> Choose category: <br />
+									</label> 
+						
+									<select id="categorySelect" name="categorySelect" class="form-control">
+									<option selected="selected"> </option>
+									<option th:each="cat : ${categories}" th:value="${cat}"
+									th:text="${cat}"></option>
+									</select>
+								</div>
+						
+								<div class="form-group col-xs-6">
+									<div id="subcategorySelectContainer"></div>
+								</div>
+							</div>
+							
+							<div class="row">
+							<div class="form-group col-xs-6">
+								<label for="firstAmount" class="contor-label"> Amount from:</label> 
+								<input type="number" id="fromAmount" name="fromAmount" class="form-control" value=""/> 
+							</div>
+							
+							<div class="form-group col-xs-6">
+								<label for="secondAmount" class="contor-label"> To: </label> 
+								<input type="number" id="toAmount" name="toAmount" class="form-control" />
+							</div>
+							</div>
+							
+							<div class="row">
+							<div>
+							<div class="form-group col-xs-6">
+								<label for="startDate" class="contor-label">Date start: </label> 
+								<input type="text" id="startDate" name="startDate" class="form-control"/> 
+							</div>
+							</div>
+							<div>
+							<div class="form-group col-xs-6">
+								<label  for="endDate" class="contor-label"> End: </label> 
+								<input type="text" id="endDate" name="endDate" class="form-control" />
+							</div>
+							</div>
+							</div>
+							<div class="form-group">
+								<button class="btn  btn-primary center-block" id="submitSearchQuery">Search
+								Query</button>
+							</div>
+				
+				</form>
+			
+			</div>
 
+		</div>
+	
+	</div>
 
+	
 		<div id="tableForDisplayExpenses">
 
 			<table id="tableForDisplayExpensesHead" th:if="${expenses} != null"
 				class="table table-responsive">
 				<thead>
-					<tr>
-						<th>Subcategory</th>
-						<th>Amount</th>
-						<th>Description</th>
+					<tr class="row">
+						<th class="col-md-4 col-lg-4 ">Subcategory</th>
+						<th class="col-md-4 col-lg-4 ">Amount</th>
+						<th class="col-md-4 col-lg-4 ">Description</th>
 					</tr>
 				</thead>
 			</table>
 
 			<div id="tableForDisplayExpensesBodyContainer">
-
-				<table th:if="${expenses} != null" class="table table-responsive">
+				<table th:if="${expenses} != null" class="table table-responsive" id="tableForDisplaying">
 					<tr th:each="exp : ${expenses}">
 						<th th:text="${exp.getSubcategoryName()}"></th>
 						<th th:text="${exp.getAmount()}"></th>
@@ -114,7 +187,6 @@
 								th:text="${exp.getDescription()}"></div></th>
 					</tr>
 				</table>
-
 			</div>
 
 		</div>

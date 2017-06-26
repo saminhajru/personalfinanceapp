@@ -65,4 +65,82 @@ $(document).ready(function() {
 			});
 			
 	});
+	
+	//search
+	
+	$("#categorySelect").on("change", function() {
+
+		$("#subcategorySelectContainer").empty();
+
+		var category = $("#categorySelect").val();
+
+		$.ajax({
+			url : "/sendingCategory",
+			type : "POST",
+			contentType : "application/json",
+			data : JSON.stringify({
+				"category" : category
+			}),
+			success : function(data) {
+				$("#subcategorySelectContainer").append(data);
+			},
+			error : function() {
+				
+			}
+
+		});
+
+	});
+	
+	
+	$("#startDate, #endDate").datepicker(
+			{dateFormat: 'mm/dd/yy' })
+			.on("change blur", function() {
+				if($(this).valid()) {
+					$(this).parent().parent().addClass("has-success");
+					$(this).parent().parent().removeClass("has-error");
+					$("#submitSearchQuery").prop("disabled", false);
+					$(this).css("color", "black");
+					
+			} else {
+					$(this).parent().parent().removeClass("has-success");
+					$(this).parent().parent().addClass("has-error");
+					$("#submitSearchQuery").prop("disabled", "disabled");
+					$(".error").css("color", "red");		
+			}
+	
+			});
+			
+	$("#submitSearchQuery").click(function(event) {
+		
+		event.preventDefault();
+		
+			var subcategory = $("#subcategory").val();
+			
+			var form = $("#searchForm")[0];
+			
+			var formData = new FormData(form);
+			formData.append("subcategory", subcategory);
+			
+			$.ajax({
+				
+				type: "POST",
+	            url : "sendingPropertiesForQueryingExpense",
+	            data : formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 600000,
+			
+				success : function(data) {
+					$("#tableForDisplaying").empty();
+					$("#tableForDisplaying").append(data);
+				},
+				error : function() {
+					alert("Error");
+				}
+	
+			});
+			
+	});
 });

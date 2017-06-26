@@ -1,19 +1,28 @@
 @CHARSET "ISO-8859-1";
 
+#panelForSearchExpense {
+	margin-top: 20px;
+}
+
+#searchForm {
+	z-index: 0;	
+	
+}
+
 textarea {
    resize: none;
 }
 
 #tableForDisplayExpenses {
 	font-size: 20px;
-	padding: 10px;
+	padding: 5px;
 	z-index: -1;
 }
 
 #tableForDisplayExpenses tr th{
 	vertical-align: middle;
 	text-align: center;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 }
 
 #tableForDisplayExpenses tr th {
@@ -28,7 +37,7 @@ textarea {
 
 #tableForDisplayExpensesHead {
 	background-color: black;
-	margin-top: 100px;
+	margin-top: 20px;
 	color: white;
 	margin-bottom: -1px;
 	

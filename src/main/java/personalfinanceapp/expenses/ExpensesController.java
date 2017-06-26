@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +17,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,12 +24,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jayway.jsonpath.Criteria;
+
 import personalfinanceapp.categories.Categories;
 import personalfinanceapp.categories.Subcategory;
 import personalfinanceapp.categories.SubcategoryService;
 
 @Controller
 public class ExpensesController {
+
+	DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
 
 	@Autowired
 	private SubcategoryService subcategoryService;
@@ -81,7 +86,7 @@ public class ExpensesController {
 	}
 
 	@RequestMapping(value = "/saveExpenseAndImage", method = RequestMethod.POST)
-	private String saveImage(Model model, Principal principal,
+	private String saveExpenseAndImageOfThisExpense(Model model, Principal principal,
 			@RequestParam(name = "subcategory", required = false) String subcategory,
 			@RequestParam(name = "amountOfExpense", required = false) String amountOfExpense,
 			@RequestParam(name = "description", required = false) String description,
@@ -98,8 +103,8 @@ public class ExpensesController {
 
 		model.addAttribute("expense", expense);
 
-		File directoryForSavingImage = new File(System.getProperty("user.dir")  + "/src/main/resources/static/images/"
-						+ principal.getName() + "/" + categoryRow + "/" + subcategory + "/");
+		File directoryForSavingImage = new File(System.getProperty("user.dir") + "/src/main/resources/static/images/"
+				+ principal.getName() + "/" + categoryRow + "/" + subcategory + "/");
 
 		if (!directoryForSavingImage.isDirectory()) {
 			directoryForSavingImage.mkdirs();
@@ -112,7 +117,24 @@ public class ExpensesController {
 		Path path = Paths.get(fileToSaveImage.toString());
 
 		Files.write(path, bytes);
-		
+
+		return "expensesDisplayTemplate";
+
+	}
+
+	@RequestMapping(value = "/sendingPropertiesForQueryingExpense", method = RequestMethod.POST)
+	private String queryingExpense(Model model, Principal principal,
+			@RequestParam(name = "categorySelect", required = false) String category,
+			@RequestParam(name = "subcategory", required = false) String subcategory,
+			@RequestParam(name = "firstAmount", required = false) Double fromAmount,
+			@RequestParam(name = "secondAmount", required = false) Double toAmount,
+			@RequestParam(name = "startDate", required = false) String startDate,
+			@RequestParam(name = "endDate", required = false) String endDate) throws ParseException {
+
+		String username = principal.getName();
+	
+		model.addAttribute("expense", expenseService.getExpenses(category, subcategory, fromAmount, toAmount, startDate, endDate, username));
+			
 		return "expensesDisplayTemplate";
 
 	}
