@@ -116,11 +116,13 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 			var subcategory = $("#subcategory").val();
+			var orderBy = $("#orderBy").val();
 			
 			var form = $("#searchForm")[0];
 			
 			var formData = new FormData(form);
 			formData.append("subcategory", subcategory);
+			formData.append("orderBy", orderBy);
 			
 			$.ajax({
 				

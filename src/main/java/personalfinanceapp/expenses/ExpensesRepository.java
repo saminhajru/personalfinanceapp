@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,7 @@ public class ExpensesRepository {
 	}
 
 	public List<Expenses> getExpensesByCriteria(String category, Subcategory subcategory, Double fromAmount,
-			Double toAmount, Date fromDate, Date toDate, String username) {
+			Double toAmount, Date fromDate, Date toDate, String username, String orderBy) {
 
 		Criteria searchCriteria = session().createCriteria(Expenses.class);
 
@@ -55,6 +56,10 @@ public class ExpensesRepository {
 
 		if (username != null) {
 			searchCriteria.add(Restrictions.eq("username", username));
+		}
+		
+		if(orderBy != null) {
+			searchCriteria.addOrder(Order.desc(orderBy));
 		}
 
 		return searchCriteria.list();

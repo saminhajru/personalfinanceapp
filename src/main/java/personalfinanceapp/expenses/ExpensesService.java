@@ -83,7 +83,7 @@ public class ExpensesService {
 	}
 
 	public List<Expenses> getExpenses(String category, String subcategory, Double fromAmount, Double toAmount,
-			String startDate, String endDate, String username) throws ParseException {
+			String startDate, String endDate, String username, String orderBy) throws ParseException {
 
 		Date fromDate = null, toDate = null;
 
@@ -105,7 +105,7 @@ public class ExpensesService {
 		}
 
 		return expensesRepository.getExpensesByCriteria(category, sub, fromAmount, toAmount, fromDate, toDate,
-				username);
+				username, orderBy);
 
 	}
 }

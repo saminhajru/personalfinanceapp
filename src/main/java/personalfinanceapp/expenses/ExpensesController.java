@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.jayway.jsonpath.Criteria;
-
 import personalfinanceapp.categories.Categories;
 import personalfinanceapp.categories.Subcategory;
 import personalfinanceapp.categories.SubcategoryService;
@@ -129,11 +127,12 @@ public class ExpensesController {
 			@RequestParam(name = "firstAmount", required = false) Double fromAmount,
 			@RequestParam(name = "secondAmount", required = false) Double toAmount,
 			@RequestParam(name = "startDate", required = false) String startDate,
-			@RequestParam(name = "endDate", required = false) String endDate) throws ParseException {
+			@RequestParam(name = "endDate", required = false) String endDate,
+			@RequestParam(name = "orderBy", required = false) String orderBy) throws ParseException {
 
 		String username = principal.getName();
 	
-		model.addAttribute("expense", expenseService.getExpenses(category, subcategory, fromAmount, toAmount, startDate, endDate, username));
+		model.addAttribute("expense", expenseService.getExpenses(category, subcategory, fromAmount, toAmount, startDate, endDate, username, orderBy));
 			
 		return "expensesDisplayTemplate";
 
