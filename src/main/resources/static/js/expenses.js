@@ -143,4 +143,14 @@ $(document).ready(function() {
 			});
 			
 	});
+	
+	
+	
+	var $table = $("#tableForDisplaying");
+	
+	$table.tablesorter();
+
+	
+	$table.floatThead();
+	
 });
