@@ -8,7 +8,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#categoryRow").on("change", function() {
+	$("#categoryRow").on("click change", function() {
 
 		$("#subcategoryRow").empty();
 
@@ -55,7 +55,7 @@ $(document).ready(function() {
 				timeout: 600000,
 			
 				success : function(data) {
-					$("#tableForDisplayExpensesBodyContainer table").append(data);
+					$("#tableForDisplaying tbody").append(data);
 					$("#modalForAddingExpense").modal("hide");
 				},
 				error : function() {
@@ -135,8 +135,8 @@ $(document).ready(function() {
 				timeout: 600000,
 			
 				success : function(data) {
-					$("#tableForDisplaying").empty();
-					$("#tableForDisplaying").append(data);
+					$("#tableForDisplaying tbody").empty();
+					$("#tableForDisplaying tbody").append(data);
 				},
 				error : function() {
 					alert("Error");
@@ -145,4 +145,14 @@ $(document).ready(function() {
 			});
 			
 	});
+	
+	
+	
+	var $table = $("#tableForDisplaying");
+	
+	$table.tablesorter();
+
+	
+	$table.floatThead();
+	
 });

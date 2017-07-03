@@ -100,6 +100,8 @@ public class ExpensesController {
 		expenseService.save(expense);
 
 		model.addAttribute("expense", expense);
+		
+		if(!photo.isEmpty()) {
 
 		File directoryForSavingImage = new File(System.getProperty("user.dir") + "/src/main/resources/static/images/"
 				+ principal.getName() + "/" + categoryRow + "/" + subcategory + "/");
@@ -115,6 +117,8 @@ public class ExpensesController {
 		Path path = Paths.get(fileToSaveImage.toString());
 
 		Files.write(path, bytes);
+		
+		}
 
 		return "expensesDisplayTemplate";
 
