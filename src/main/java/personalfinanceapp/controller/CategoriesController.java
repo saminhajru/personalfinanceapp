@@ -56,7 +56,7 @@ public class CategoriesController {
 	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method = RequestMethod.POST)
 	public String saveSubcategory(@RequestBody HashMap<String, String> categoryAndSubcategory, Principal principal,
 			Model model) {
-
+		
 		if (principal != null) {
 			
 			String nameOfTheSubcategory = categoryAndSubcategory.get("nameOfTheSubcategory");
@@ -69,11 +69,11 @@ public class CategoriesController {
 
 			subcategoryService.saveSubcategory(subcategory);
 
-			model.addAttribute("nameOfTheSubcategory", categoryAndSubcategory.get("nameOfTheSubcategory"));
-			String image = "images/svg/" + "" + categoryAndSubcategory.get("category") + "" + ".svg";
+			model.addAttribute("nameOfTheSubcategory", nameOfTheSubcategory);
+			String image = "images/svg/" + "" + category+ "" + ".svg";
 			model.addAttribute("image", image);
 			
-			String colorForBackgroundStyle = "background-color : " + "" + categoryAndSubcategory.get("color");
+			String colorForBackgroundStyle = "background-color : " + "" + color;
 			model.addAttribute("color", colorForBackgroundStyle);
 			
 		} else {

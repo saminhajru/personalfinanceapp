@@ -8,12 +8,16 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#saveBtn").click(function() {
+	$("#saveBtn").click(function(evt) {
 
+		
+		evt.preventDefault();
+		
 		var nameOfTheSubcategory = $("#nameOfTheSubcategory").val();
 		var category = $("#category").val();
 		var color = $("#chosenColor").val();
-
+		
+		
 		$.ajax({
 			url : "/saveSubcategory",
 			type : "POST",
@@ -25,7 +29,7 @@ $(document).ready(function() {
 			contentType : "application/json",
 			success : function(data) {
 				$("#tableForDisplaySubcategories").append(data);
-
+				$("#modalForAddingSubcategory").modal("hide");
 			},
 			error : function() {
 				alert("Please log in to add subcategory");

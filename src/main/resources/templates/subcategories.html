@@ -6,17 +6,17 @@
 
 <title>Subcategories</title>
 
-<link rel="stylesheet" type="text/css" href="colorpicker/css/colorpicker.css" />
+<link rel="stylesheet" type="text/css" th:href="@{colorpicker/css/colorpicker.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{css/categoriesStyle.css}" />
 <link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/categoriesStyle.css}" />
 <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
-<script type="text/javascript" src="colorpicker/js/colorpicker.js"></script>
-<script type="text/javascript" src="js/colorPickerQuery.js"></script>
-<script type="text/javascript" src="js/sidebar.js"></script>
-<script type="text/javascript" src="js/subcategoryAjaxPost.js"></script>
+<script type="text/javascript" th:src="@{colorpicker/js/colorpicker.js}"></script>
+<script type="text/javascript" th:src="@{js/colorPickerQuery.js}"></script>
+<script type="text/javascript" th:src="@{js/sidebar.js}"></script>
+<script type="text/javascript" th:src="@{js/subcategoryAjaxPost.js}"></script>
 
 </head>
 <body>
@@ -40,45 +40,30 @@
 					</div>
 					
 					<div class="modal-body">
-							<table class="table">
-								<tr>
-									<th> 
-										<div class="form-group">
-											<label for="category" class="control-label"> Category </label>
-												<select id="category" class="center-block">
-													<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
-												</select>		
-										</div>
-									</th>
-								</tr>
+							<form>
+							
+								<div class="form-group">
+									<label for="category" class="control-label"> Category </label>
+									<select id="category" class="form-control">
+										<option  th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>		
+									</select>		
+								</div>
 		
-								<tr>
-									<th> 
-										 	<div class="form-group">
-												<label for="nameOfTheSubcategory" class="control-label"> Name of the subcategory </label> <br/>
-												<input type="text" id="nameOfTheSubcategory" name="nameOfTheSubcategor" class="form-control"/>		
-										 	</div>	
-									</th>
-								</tr>
+								<div class="form-group">
+									<label for="nameOfTheSubcategory" class="control-label"> Name of the subcategory </label> <br/>
+									<input type="text" id="nameOfTheSubcategory" name="nameOfTheSubcategory" class="form-control"/>			
+								</div>
 								
-								<tr>
-									<th> 
-										<div class="form-group">
-											<button id="colorPicker" class="btn btn-large btn-info center-block"> PICK COLOR </button>
-											<input type="hidden" id="chosenColor" value="" />	
-										</div>
-									</th>
-								</tr>
+								<div class="form-group">
+									<button id="colorPicker" class="btn btn-large btn-info center-block"> PICK COLOR </button>
+									<input type="hidden" id="chosenColor" value="" />	
+								</div>
 		
-								<tr>
-									<th> 
-										<div class="form-group">
-											<button id="saveBtn" class="btn btn-large btn-primary center-block" value="" > SAVE </button>	
-										</div>
-									</th>
-								</tr>
-				
-							</table>
+								<div class="form-group">						
+									<button id="saveBtn" class="btn btn-large btn-primary center-block" value="" > SAVE </button>	
+								</div>
+												
+							</form>
 					</div>
 					
 					<div class="modal-footer">
@@ -110,6 +95,7 @@
 						</tr>
 					</table>
 			</div>
+			
 			</div>
 	</div>
 	
