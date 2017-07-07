@@ -1,4 +1,4 @@
-package personalfinanceapp.expenses;
+package personalfinanceapp.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import personalfinanceapp.categories.Categories;
+import personalfinanceapp.model.Subcategory;
 import personalfinanceapp.categories.SubcategoryService;
 import personalfinanceapp.model.Expenses;
-import personalfinanceapp.model.Subcategory;
+import personalfinanceapp.expenses.ExpensesDTO;
+import personalfinanceapp.expenses.ExpensesService;
 
 @Controller
 public class ExpensesController {
@@ -49,12 +51,6 @@ public class ExpensesController {
 		if (principal != null) {
 			List<Expenses> expenses = expenseService.getAllExpenses(principal.getName());
 			model.addAttribute("expenses", expenses);
-			
-			List<String> subcategories =  subcategoryService.getAllSubcategoriesNames("HOME", principal.getName());
-			
-			if(!subcategories.isEmpty()) {
-			model.addAttribute("subcategories", subcategories);	
-			}
 		}
 
 		return "expenses";
@@ -93,7 +89,7 @@ public class ExpensesController {
 	@RequestMapping(value = "/saveExpenseAndImage", method = RequestMethod.POST)
 	private String saveExpenseAndImageOfThisExpense(Model model, Principal principal,
 			@RequestParam(name = "subcategory", required = false) String subcategory,
-			@RequestParam(name = "amountOfExpense", required = true) String amountOfExpense,
+			@RequestParam(name = "amountOfExpense", required = false) String amountOfExpense,
 			@RequestParam(name = "description", required = false) String description,
 			@RequestParam(name = "categoryRow", required = false) String categoryRow,
 			@RequestParam(name = "photoForExpense", required = false) MultipartFile photo)
