@@ -1,4 +1,4 @@
-package personalfinanceapp.expenses;
+package personalfinanceapp.model;
 
 import java.util.Date;
 
@@ -9,15 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.NumberFormat;
 
 import com.fasterxml.jackson.annotation.JsonView;
-
-import personalfinanceapp.model.Subcategory;
 
 class Views {
 	public interface Summary {};
@@ -30,17 +23,10 @@ public class Expenses {
 	private int expensesId;
 	@ManyToOne
 	@JoinColumn(name = "subcategory")
-	@NotEmpty
 	private Subcategory subcategory;
-	@NotEmpty
 	private String category;
-	
 	@JsonView(Views.Summary.class)
-	@NumberFormat
-	@NotEmpty
 	private double amountOfExpense;
-	
-	@Size(min=0, max=250, message="Description size must be between 0 and 250 characters")
 	private String description;
 	
 	//TODO use User class instead of username 

@@ -1,4 +1,4 @@
-package personalfinanceapp.categories;
+package personalfinanceapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,8 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-
-import personalfinanceapp.user.User;
 
 @Entity
 @Table(name = "subcategories")

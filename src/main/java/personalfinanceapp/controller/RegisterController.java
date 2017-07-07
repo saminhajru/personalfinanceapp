@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import personalfinanceapp.user.User;
+import personalfinanceapp.model.User;
 import personalfinanceapp.user.UserService;
 import personalfinanceapp.validationGroups.FormValidationGroup;
 

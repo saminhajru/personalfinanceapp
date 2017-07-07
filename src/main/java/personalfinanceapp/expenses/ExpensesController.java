@@ -25,8 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import personalfinanceapp.categories.Categories;
-import personalfinanceapp.categories.Subcategory;
 import personalfinanceapp.categories.SubcategoryService;
+import personalfinanceapp.model.Expenses;
+import personalfinanceapp.model.Subcategory;
 
 @Controller
 public class ExpensesController {
