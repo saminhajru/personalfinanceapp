@@ -1,4 +1,4 @@
-package personalfinanceapp.expenses;
+package personalfinanceapp.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import personalfinanceapp.categories.Categories;
 import personalfinanceapp.categories.Subcategory;
 import personalfinanceapp.categories.SubcategoryService;
+import personalfinanceapp.expenses.Expenses;
+import personalfinanceapp.expenses.ExpensesDTO;
+import personalfinanceapp.expenses.ExpensesService;
 
 @Controller
 public class ExpensesController {
