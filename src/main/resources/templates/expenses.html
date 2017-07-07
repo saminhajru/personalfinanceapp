@@ -185,21 +185,21 @@
 		</div>
 	
 	</div>
-
 	
+
 		<div id="tableForDisplayExpenses">
 
 			<div id="tableForDisplayExpensesBodyContainer">
 			
-				
 				<table th:if="${expenses} != null" class="table table-responsive tablesorter" id="tableForDisplaying">
 					<thead>
 					<tr>
-						<th class="col-xs-3"> Subcategory </th>
-						<th class="col-xs-3"> Amount </th>
-						<th class="col-xs-6"> Description </th>
+						<th class="col-xs-4"> Subcategory </th>
+						<th class="col-xs-4"> Amount </th>
+						<th class="col-xs-4"> Description </th>
 					</tr>
 					</thead>
+					
 					<tbody>
 						<tr th:each="exp : ${expenses}">
 							<th th:text="${exp.getSubcategoryName()}"></th>
@@ -210,12 +210,10 @@
 					</tbody>
 				</table>
 				
-				</div>
 			</div>
-
 		</div>
 
+	</div>
 	
-
 </body>
 </html>

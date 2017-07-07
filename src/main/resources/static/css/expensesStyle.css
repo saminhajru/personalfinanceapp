@@ -15,7 +15,7 @@ textarea {
 table.floatThead-table {
     border-top: none;
     border-bottom: none;
-    background-color: black;
+    background-color: navy;
     color: white;
 }
 
@@ -36,7 +36,7 @@ table.floatThead-table {
 }
 
 #tableForDisplayExpensesBodyContainer {
-	height: 288px;
+	height: 225px;
 	overflow-y: auto;
 	overflow-x: auto;
 }
@@ -46,7 +46,7 @@ table.floatThead-table {
 	padding: auto;
 	vertical-align: middle;
 	text-align: center;
-	width: 300px;
+	width: 360px;
 	height: 45px;
     overflow-y: auto;
     overflow-x: auto;
