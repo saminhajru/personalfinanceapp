@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import personalfinanceapp.repository.SubcategoryJPARepository;
+import personalfinanceapp.repository.SubcategoryRepository;
+
 @Service
 public class SubcategoryService {
 	

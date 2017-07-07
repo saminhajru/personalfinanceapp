@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import personalfinanceapp.categories.Subcategory;
+import personalfinanceapp.repository.ExpensesJPARepository;
+import personalfinanceapp.repository.ExpensesRepository;
 
 @Service
 @Transactional
