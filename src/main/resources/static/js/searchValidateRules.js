@@ -18,4 +18,22 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	
+	$("#fileUploadForm").validate({
+		rules: {
+			amountOfExpense : {
+				required : true,
+				number : true
+			}
+			
+		},
+		messages : {
+			amountOfExpense : {
+				required : "The amount is required",
+				number: "The amount can consist only of numbers"
+			}
+		}
+	});
+	
 });
