@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import personalfinanceapp.model.Subcategory;
-import personalfinanceapp.expenses.Expenses;
+import personalfinanceapp.model.Expenses;
 
 @Repository
 @Transactional

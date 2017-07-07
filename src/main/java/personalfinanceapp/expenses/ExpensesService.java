@@ -13,14 +13,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.model.Subcategory;
-=======
-import personalfinanceapp.categories.Subcategory;
+
 import personalfinanceapp.repository.ExpensesJPARepository;
 import personalfinanceapp.repository.ExpensesRepository;
->>>>>>> refs/heads/PSA-32
+
 
 @Service
 @Transactional
