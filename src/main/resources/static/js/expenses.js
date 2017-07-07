@@ -147,12 +147,27 @@ $(document).ready(function() {
 	});
 	
 	
-	
 	var $table = $("#tableForDisplaying");
 	
 	$table.tablesorter();
 
-	
 	$table.floatThead();
 	
+	
+	$("#fileUploadForm input").on("blur", function() {
+		
+		if($(this).valid()) {
+			$(this).parent().addClass("has-success");
+			$(this).parent().removeClass("has-error");
+			$("#saveExpense").prop("disabled", false);
+			$(this).css("color", "black");
+			
+		} else {
+			$(this).parent().removeClass("has-success");
+			$(this).parent().addClass("has-error");
+			$("#saveExpense").prop("disabled", "disabled");
+			$(".error").css("color", "red");		
+		}
+		
+	});
 });

@@ -92,7 +92,7 @@ public class ExpensesController {
 	@RequestMapping(value = "/saveExpenseAndImage", method = RequestMethod.POST)
 	private String saveExpenseAndImageOfThisExpense(Model model, Principal principal,
 			@RequestParam(name = "subcategory", required = false) String subcategory,
-			@RequestParam(name = "amountOfExpense", required = false) String amountOfExpense,
+			@RequestParam(name = "amountOfExpense", required = true) String amountOfExpense,
 			@RequestParam(name = "description", required = false) String description,
 			@RequestParam(name = "categoryRow", required = false) String categoryRow,
 			@RequestParam(name = "photoForExpense", required = false) MultipartFile photo)
