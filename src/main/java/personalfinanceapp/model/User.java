@@ -1,4 +1,4 @@
-package personalfinanceapp.user;
+package personalfinanceapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

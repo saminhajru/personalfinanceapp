@@ -1,4 +1,4 @@
-package personalfinanceapp.expenses;
+package personalfinanceapp.model;
 
 import java.util.Date;
 
@@ -11,8 +11,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonView;
-
-import personalfinanceapp.categories.Subcategory;
 
 class Views {
 	public interface Summary {};

@@ -12,7 +12,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import personalfinanceapp.categories.Subcategory;
+import personalfinanceapp.model.Expenses;
+import personalfinanceapp.model.Subcategory;
 
 @Repository
 @Transactional
