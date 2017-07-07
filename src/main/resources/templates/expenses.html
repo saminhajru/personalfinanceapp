@@ -58,7 +58,12 @@
 								</div>
 
 								<div class="form-group col-xs-6">
-									<div id="subcategoryRow" class="center-block"></div>
+									<div id="subcategoryRow" class="center-block">
+										<label for="subcategory" class="control-label"> Choose subcategory:  </label>
+										<select th:if="${subcategories} != null" id="subcategory" class="form-control">
+											<option th:each="sub : ${subcategories}" th:value="${sub}" th:text="${sub}"></option>
+										</select>
+									</div>
 								</div>
 							</div>
 

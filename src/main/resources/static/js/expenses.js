@@ -8,7 +8,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#categoryRow").on("click change", function() {
+	$("#categoryRow").on("change", function() {
 
 		$("#subcategoryRow").empty();
 
