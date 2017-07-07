@@ -73,7 +73,8 @@
 			</div>
 		</div>
 			
-			<div id="tableThatDisplaysSubcategories">
+		<div class="row">
+			<div id="tableThatDisplaysSubcategories" class="col-xs-10 col-xs-offset-2">
 				
 					<table class="table table-responsive" id="tableForDisplaySubcategoriesHead">
 						<thead>	
@@ -83,7 +84,7 @@
 						</thead>
 					</table>
 					
-			<div id="tableForDisplayingSubcategoriesBody">		
+				<div id="tableForDisplayingSubcategoriesBody">		
 					<table class="table table-responsive" id="tableForDisplaySubcategories" th:if="${subcategories} != null">
 					
 						<tr th:each="subcat : ${subcategories}" th:style="'background-color :' + '' + ${subcat.getColor()} ">
@@ -94,10 +95,12 @@
 							</th>
 						</tr>
 					</table>
+				</div>
 			</div>
+
 			
-			</div>
-	</div>
+		</div>
+	</div>	
 	
 </body>
 </html>

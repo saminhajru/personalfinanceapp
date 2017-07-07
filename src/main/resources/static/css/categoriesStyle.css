@@ -52,6 +52,7 @@
 #tableForDisplaySubcategories tr th{
 	vertical-align: middle;
 	text-align: center;
+	border: 2px solid black;
 }
 
 #tableForDisplaySubcategories  tr th img{
@@ -70,7 +71,7 @@
 }
 
 #tableForDisplaySubcategoriesHead {
-	background-color: black;
+	background-color: navy;
 	margin-top: 100px;
 	color: white;
 	margin-bottom: -1px;
