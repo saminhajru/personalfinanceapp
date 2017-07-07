@@ -1,27 +1,46 @@
 @CHARSET "ISO-8859-1";
 
-#categoriesTable { 
+
+#tableForDisplayCategories {
 	z-index: -1;
 }
 
-#categoriesTable tr { 
+#tableForDisplayCategoriesBody tr th{
+	vertical-align: middle;
+	text-align: center;
+	font-size: 30px;
+	padding: 10px;
+}
+
+#tableForDisplayCategoriesBody tr th img{
+	width: 100px; 
+	height: 100px;
+}
+
+#tableForDisplayCategoriesBody tr th {
 	border: 2px solid black;
 }
 
-#categoriesTable thead tr th { 
+#tableForDisplayCategories tr  {
+	border: 2px solid black;
+}
+
+#tableForDisplayCategoriesHead {
+	background-color: navy;
+	margin-top: 100px;
+	color: white;
+	margin-bottom: -1px;
+}
+
+#tableForDisplayCategoriesHead thead tr th {
 	border: 2px solid black;
 	text-align: center;
-	padding-bottom: 20px;
 }
 
-#categoriesTable tr th {
-	font-size:50px; 
-	font-weight: bold;
-}
-
-#categoriesTable tr th img{
-	width: 150px; 
-	height: 150px;
+#tableForDisplayCategoriesBody {
+	height: 360px;
+	overflow-y: auto;
+	overflow-x: auto;
 }
 
 #tableForDisplaySubcategories {
@@ -36,8 +55,8 @@
 }
 
 #tableForDisplaySubcategories  tr th img{
-	width: 100px; 
-	height: 100px;
+	width: 110px; 
+	height: 110px;
 }
 
 #tableForDisplaySubcategories tr  {
