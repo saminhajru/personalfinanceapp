@@ -48,6 +48,12 @@ public class ExpensesController {
 		if (principal != null) {
 			List<Expenses> expenses = expenseService.getAllExpenses(principal.getName());
 			model.addAttribute("expenses", expenses);
+			
+			List<String> subcategories =  subcategoryService.getAllSubcategoriesNames("HOME", principal.getName());
+			
+			if(!subcategories.isEmpty()) {
+			model.addAttribute("subcategories", subcategories);	
+			}
 		}
 
 		return "expenses";
