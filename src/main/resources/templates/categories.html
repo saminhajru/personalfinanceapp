@@ -5,34 +5,53 @@
 <title>Categories</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{css/categoriesStyle.css}" />
-<link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
-<script type="text/javascript" th:src="@{js/jquery.min.js}"> </script>
+<link rel="stylesheet" type="text/css"
+	th:href="@{css/categoriesStyle.css}" />
+<link type="text/css" rel="stylesheet"
+	th:href="@{bootstrap/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{js/jquery.min.js}">
+	
+</script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{js/sidebar.js}"></script>
-	
+<script type="text/javascript" th:src="@{js/jquery.floatThead.js}"></script>
+
+
 </head>
 <body>
 
 	<div id="sidebarInclude" th:include="sidebarMenu"></div>
-	
-		<div class="container">
-	
+
+	<div class="container">
+
+		<div id="tableThatDisplaysCategories">
+
+			<table class="table table-responsive"
+				id="tableForDisplayCategoriesHead">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<h2>Categories</h2>
+						</th>
+					</tr>
+				</thead>
+			</table>
+
+			<div id="tableForDisplayCategoriesBody">
 				<table class="table table-responsive" id="categoriesTable">
-						<thead>
-							<tr>
-								<th colspan="2"> Categories </th>
-							</tr>
-						</thead>
-						
-						<tr  th:each="categories : ${categories}" th:style="'background-color :' + '' + ${categories.getColor()}"> 
-							<th th:text="${categories.name()}"></th>	
-							<th>
-								<img th:src="@{'images/svg/' + '' + ${categories.name()} + ''  + '.svg'}" />
-							</th>
-						</tr>
+
+					<tr th:each="categories : ${categories}"
+						th:style="'background-color :' + '' + ${categories.getColor()}">
+						<th th:text="${categories.name()}"></th>
+						<th><img th:src="@{'images/svg/' + '' + ${categories.name()} + ''  + '.svg'}" />
+						</th>
+					</tr>
+
 				</table>
+			</div>
+			
 		</div>
+	</div>
 
 </body>
 </html>

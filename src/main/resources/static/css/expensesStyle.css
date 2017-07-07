@@ -12,13 +12,6 @@ textarea {
    resize: none;
 }
 
-table.floatThead-table {
-    border-top: none;
-    border-bottom: none;
-    background-color: black;
-    color: white;
-}
-
 #tableForDisplayExpenses {
 	font-size: 20px;
 	padding: 5px;
