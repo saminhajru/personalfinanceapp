@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import personalfinanceapp.model.User;
-import personalfinanceapp.user.UserService;
+import personalfinanceapp.service.UserService;
 import personalfinanceapp.validationGroups.FormValidationGroup;
 
 @Controller

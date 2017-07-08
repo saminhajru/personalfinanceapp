@@ -1,4 +1,4 @@
-package personalfinanceapp.categories;
+package personalfinanceapp.service;
 
 import java.util.List;
 

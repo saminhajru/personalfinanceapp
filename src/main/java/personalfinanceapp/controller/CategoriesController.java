@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import personalfinanceapp.categories.Categories;
-import personalfinanceapp.categories.SubcategoryService;
 import personalfinanceapp.model.Subcategory;
 import personalfinanceapp.model.User;
+import personalfinanceapp.service.SubcategoryService;
 
 @Controller
 public class CategoriesController {

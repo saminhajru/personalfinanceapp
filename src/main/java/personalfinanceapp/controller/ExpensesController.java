@@ -26,10 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import personalfinanceapp.categories.Categories;
 import personalfinanceapp.model.Subcategory;
-import personalfinanceapp.categories.SubcategoryService;
+import personalfinanceapp.service.ExpensesService;
+import personalfinanceapp.service.SubcategoryService;
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.expenses.ExpensesDTO;
-import personalfinanceapp.expenses.ExpensesService;
 
 @Controller
 public class ExpensesController {

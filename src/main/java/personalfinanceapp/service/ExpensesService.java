@@ -1,4 +1,4 @@
-package personalfinanceapp.expenses;
+package personalfinanceapp.service;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import personalfinanceapp.expenses.ExpensesDTO;
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.model.Subcategory;
 
