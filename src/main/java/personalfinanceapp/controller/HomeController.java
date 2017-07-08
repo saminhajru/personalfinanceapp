@@ -16,4 +16,9 @@ public class HomeController {
 	public String homeLogged() {
 		return "home";
 	}
+	
+	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+	public String accessDenied() {
+		return "accessDeniedPage";
+	}
 }

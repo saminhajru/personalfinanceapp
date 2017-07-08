@@ -33,8 +33,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/").hasRole("USER").and().formLogin().loginPage("/login").failureUrl("/loginFailure").and().logout()
-				.logoutSuccessUrl("/home");
+		http.authorizeRequests()
+		.antMatchers("/categories").authenticated()
+		.antMatchers("/subcategories").authenticated()
+		.antMatchers("/expenses").authenticated()
+		.antMatchers("/expensesGraphView").authenticated()
+		.antMatchers("/saveSubcategory").authenticated()
+		.antMatchers("/saveSubcategory").authenticated()
+		.antMatchers("/sendingCategory").authenticated()
+		.antMatchers("/getExpensesAmountAndDate").authenticated()
+		.antMatchers("/saveExpenseAndImage").authenticated()
+		.antMatchers("/sendingPropertiesForQueryingExpense").authenticated()
+		.antMatchers("/sendingCategory").authenticated()
+		.antMatchers("/logout").authenticated()
+		.antMatchers("/register").not().authenticated()
+			
+		.and().exceptionHandling().accessDeniedPage("/accessDenied")
+		.and().formLogin().loginPage("/login").failureUrl("/loginFailure")
+		.and().logout().logoutSuccessUrl("/home");
 
 	}
 

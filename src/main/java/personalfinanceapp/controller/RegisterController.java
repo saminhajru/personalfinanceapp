@@ -37,7 +37,7 @@ public class RegisterController {
 		
 		if(userService.usernameAlreadyExist(user.getUsername())) {
 			
-			result.rejectValue("username", "DuplicateUsername.personalfinanceapp.user.User");
+			result.rejectValue("username", "DuplicateUsername.user.username");
 			return "register";
 			
 		}	
