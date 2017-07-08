@@ -5,99 +5,15 @@
 <title>Register</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}"/>
-
-<link type="text/css" rel="stylesheet"
-	th:href="@{bootstrap/css/bootstrap.min.css}" />
-
+<link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/styleForRegisterAndLogin.css}"/>
-	
-<script type="text/javascript" th:src="@{js/jquery.min.js}">	
-</script>
 
-<script type="text/javascript"
-	th:src="@{jquery_validate/jquery.validate.min.js}">
-</script>
-
-<script type="text/javascript"
-	th:src="@{jquery_validate/additional-methods.min.js}">
-</script>
-
-<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}">
-</script>
-
-<script>
-
-	$(document).ready(function() {
-	
-	$("#sidebar-btn").click(function() {
-	$("#sidebar").toggleClass("visible");	
-	
-	});
-});
-</script>
-
-<script>
-	$(document).ready(function() {
-
-						$('form')
-								.validate(
-										{
-											rules : {
-												username : {
-													required : true,
-													rangelength : [ 6, 18 ]
-												},
-												email : {
-													required : true,
-													email : true
-												},
-												password : {
-													required : true,
-													rangelength : [ 6, 18 ]
-												},
-												confirm_password : {
-													equalTo : "#password"
-												}
-
-											},
-											messages : {
-												email : {
-													required : "Please enter email address",
-													email : "Please enter a valid email address"
-												},
-												password : {
-													required : "Please enter password",
-													rangelength : "Password must be between 6 and 18 characters"
-												},
-												username : {
-													required : "Please enter username",
-													rangelength : "Username must be between 6 and 18 characters"
-												},
-												confirm_password : {
-													equalTo : "Passwords don't match"
-												}
-
-											},
-										});
-							
-						$("#registrationForm input").on("blur", function(){
-							if($(this).valid()) {
-									$(this).parent().parent().addClass("has-success");
-									$(this).parent().parent().removeClass("has-error");
-									$("#submit").prop("disabled", false);
-									$(this).css("color", "black");
-									
-							} else {
- 									$(this).parent().parent().removeClass("has-success");
- 									$(this).parent().parent().addClass("has-error");
-									$("#submit").prop("disabled", "disabled");
-									$(".error").css("color", "red");		
-							}
-					
-						});
-										
-					});
-</script>
+<script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{jquery_validate/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{jquery_validate/additional-methods.min.js}"></script>
+<script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{js/sidebar.js}"></script>
+<script type="text/javascript" th:src="@{js/registerValidation.js}"></script>
 
 </head>
 <body>

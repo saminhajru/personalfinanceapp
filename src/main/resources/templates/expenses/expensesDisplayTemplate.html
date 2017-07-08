@@ -1,6 +1,7 @@
-
 <tr th:if="${expense} != null" th:each="exp : ${expense}">
-<th th:text="${exp.getSubcategoryName()}"></th>
-<th th:text="${exp.getAmount()}"></th>
-<th >  <div id="descriptionDiv" th:text="${exp.getDescription()}"> </div> </th>
+	<th th:text="${exp.getSubcategoryName()}"></th>
+	<th th:text="${exp.getAmount()}"></th>
+	<th>  
+		<div id="descriptionDiv" th:text="${exp.getDescription()}"> </div>
+    </th>
 </tr>

@@ -6,12 +6,10 @@
 <title>Expenses</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{css/sidebarStyle.css}" />
-<link rel="stylesheet" type="text/css"
-	th:href="@{css/expensesStyle.css}" />
-<link type="text/css" rel="stylesheet"
-	th:href="@{bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" th:href="@{css/expensesStyle.css}" />
+<link type="text/css" rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
 <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{bootstrap/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{js/sidebar.js}"></script>
@@ -22,7 +20,6 @@
 <script type="text/javascript" th:src="@{jquery_validate/additional-methods.min.js}"></script>
 <script type="text/javascript" th:src="@{js/searchValidateRules.js}"></script>
 <script type="text/javascript" th:src="@{js/expenses.js}"></script>
-
 
 </head>
 <body>
@@ -106,9 +103,7 @@
 			</div>
 		</div>
 
-			
-		
-			<div class="row">
+		<div class="row">
 			
 			<div class="panel panel-default col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-3" id="panelForSearchExpense">
 				<div class="panel-heading"> Search Expense </div>
@@ -170,8 +165,7 @@
 									<option value="dateOFMakingtheExpense"> Date </option> 
 								</select>
 							</div>
-							</div>
-							
+							</div>	
 							
 							<div class="form-group">
 								<button class="btn  btn-primary center-block" id="submitSearchQuery">Search
@@ -186,7 +180,6 @@
 	
 	</div>
 	
-
 		<div id="tableForDisplayExpenses">
 
 			<div id="tableForDisplayExpensesBodyContainer">
