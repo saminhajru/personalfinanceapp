@@ -53,7 +53,7 @@ public class ExpensesController {
 			model.addAttribute("expenses", expenses);
 		}
 
-		return "expenses";
+		return "expenses/expenses";
 	}
 
 	@RequestMapping(value = "/sendingCategory", method = RequestMethod.POST, consumes = "application/json")
@@ -66,7 +66,7 @@ public class ExpensesController {
 			model.addAttribute("subcategories", subcategories);
 		}
 
-		return "expensesSelectTemplate";
+		return "expenses/expensesSelectTemplate";
 	}
 
 	@RequestMapping(value = "/getExpensesAmountAndDate", method = RequestMethod.GET, produces = "application/json")
@@ -83,7 +83,9 @@ public class ExpensesController {
 
 	@RequestMapping(value = "/expensesGraphView", method = RequestMethod.GET)
 	private String expensesGraphView() {
-		return "expensesGraphView";
+		
+		return "expenses/expensesGraphView";
+		
 	}
 
 	@RequestMapping(value = "/saveExpenseAndImage", method = RequestMethod.POST)
@@ -123,7 +125,7 @@ public class ExpensesController {
 		
 		}
 
-		return "expensesDisplayTemplate";
+		return "expenses/expensesDisplayTemplate";
 
 	}
 
@@ -141,7 +143,7 @@ public class ExpensesController {
 	
 		model.addAttribute("expense", expenseService.getExpenses(category, subcategory, fromAmount, toAmount, startDate, endDate, username, orderBy));
 			
-		return "expensesDisplayTemplate";
+		return "expenses/expensesDisplayTemplate";
 
 	}
 

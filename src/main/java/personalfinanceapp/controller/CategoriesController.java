@@ -29,7 +29,7 @@ public class CategoriesController {
 
 		model.addAttribute("categories", categories);
 
-		return "categories";
+		return "category/categories";
 
 	}
 
@@ -50,7 +50,7 @@ public class CategoriesController {
 			return "login";
 		}
 
-		return "subcategories";
+		return "subcategory/subcategories";
 	}
 
 	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method = RequestMethod.POST)
@@ -79,7 +79,7 @@ public class CategoriesController {
 		} else {
 			return "login";
 		}
-		return "subcategoryTableTemplate";
+		return "subcategory/subcategoryTableTemplate";
 	}
 
 }
