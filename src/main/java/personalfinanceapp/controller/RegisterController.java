@@ -16,15 +16,23 @@ import personalfinanceapp.validationGroups.FormValidationGroup;
 @Controller
 public class RegisterController {
 	
-	@Autowired
 	private UserService userService;
 	
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@RequestMapping("/register")
+	public RegisterController() {
+	}
+	
+	@Autowired
+	public RegisterController(UserService userService, PasswordEncoder passwordEncoder) {
+		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(Model model, User user) {
-		return "register";
+		return "registerPage";
 	}
 	
 	@RequestMapping(value = "/doregister", method = RequestMethod.POST)
@@ -46,7 +54,8 @@ public class RegisterController {
 		user.setEnabled(true);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userService.save(user);
-		return "doregister";
+		
+		return "createUserPage";
 		
 	}
 }

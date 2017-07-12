@@ -7,11 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String homeNotLogged() {
-		return "home";
-	}
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homeLogged() {
 		return "home";

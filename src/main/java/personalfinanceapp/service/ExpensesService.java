@@ -114,4 +114,19 @@ public class ExpensesService {
 				username, orderBy);
 
 	}
+	
+	public Expenses createExpense(Subcategory sub, String categoryRow, String amount, String description,
+			String username) {
+
+		Expenses expense = new Expenses();
+		expense.setExpensesId((getNumberOfExpenses()) + 1);
+		expense.setSubcategory(sub);
+		expense.setCategory(categoryRow);
+		expense.setAmount(Double.parseDouble(amount));
+		expense.setDescription(description);
+		expense.setUser(username);
+		expense.setDate(new Date());
+
+		return expense;
+	}
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +21,17 @@ import personalfinanceapp.service.SubcategoryService;
 @Controller
 public class CategoriesController {
 
-	@Autowired
+
 	private SubcategoryService subcategoryService;
+	
+	
+	public CategoriesController() {	
+	}
+	
+	@Autowired
+	public CategoriesController(SubcategoryService subcategoryService) {
+		this.subcategoryService = subcategoryService;
+	}
 
 	@RequestMapping("/categories")
 	public String categories(Model model) {
@@ -33,32 +44,28 @@ public class CategoriesController {
 
 	}
 
-	@RequestMapping("/subcategories")
+	@RequestMapping(value = "/subcategories", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
 	public String subcategories(Model model, Principal principal) {
 
 		Categories[] categories = Categories.values();
 
 		model.addAttribute("categories", categories);
 
-		if (principal != null) {
-			List<Subcategory> subcategories = subcategoryService.getAllSubcategoriesFromUser(principal.getName());
+		List<Subcategory> subcategories = subcategoryService.getAllSubcategoriesFromUser(principal.getName());
 
-			if (!subcategories.isEmpty()) {
-				model.addAttribute("subcategories", subcategories);
-			}
-		} else {
-			return "login";
+		if (!subcategories.isEmpty()) {
+			model.addAttribute("subcategories", subcategories);
 		}
 
 		return "subcategory/subcategories";
 	}
 
 	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method = RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
 	public String saveSubcategory(@RequestBody HashMap<String, String> categoryAndSubcategory, Principal principal,
 			Model model) {
-		
-		if (principal != null) {
-			
+				
 			String nameOfTheSubcategory = categoryAndSubcategory.get("nameOfTheSubcategory");
 			String category = categoryAndSubcategory.get("category");
 			String color =  categoryAndSubcategory.get("color");
@@ -66,6 +73,8 @@ public class CategoriesController {
 			User user = new User();
 			user.setUsername(principal.getName());
 			Subcategory subcategory = new Subcategory(nameOfTheSubcategory, category, user, color);
+			
+			System.out.println(subcategory);
 
 			subcategoryService.saveSubcategory(subcategory);
 
@@ -76,9 +85,7 @@ public class CategoriesController {
 			String colorForBackgroundStyle = "background-color : " + "" + color;
 			model.addAttribute("color", colorForBackgroundStyle);
 			
-		} else {
-			return "login";
-		}
+		
 		return "subcategory/subcategoryTableTemplate";
 	}
 

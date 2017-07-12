@@ -21,8 +21,8 @@ public class SubcategoryService {
 	@Autowired
 	private SubcategoryRepository subRepo;
 	
-	public void saveSubcategory(Subcategory subcategory) {
-		subJPARepo.save(subcategory);
+	public boolean saveSubcategory(Subcategory subcategory) {
+		return subJPARepo.save(subcategory) != null;
 	}
 	
 	public List<Subcategory> getAllSubcategoriesFromUser(String username) {
