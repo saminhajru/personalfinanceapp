@@ -7,13 +7,12 @@ import personalfinanceapp.model.User;
 
 import personalfinanceapp.repository.UserJPARepository;
 
-
 @Service
 public class UserService {
 
 	@Autowired
 	private UserJPARepository userJPARepo;
-
+	
 	public void save(User user) {
 		userJPARepo.saveAndFlush(user);
 	}

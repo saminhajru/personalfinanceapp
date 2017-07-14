@@ -27,14 +27,14 @@ public class SubcategoryServiceTest {
 	private SubcategoryJPARepository subcategoryJpaRepo;
 	
 	private Subcategory sub;
-	private Subcategory sub1;
+	private Subcategory sub2;
 	
 	
 	@Before
 	public void setup() {
 		
-		sub = new Subcategory("Pranje", "HOME", createUser("samin96"), "blue");
-		sub1 = new Subcategory("Pranje1", "HOME", createUser("samin96"), "blue");
+		sub = new Subcategory("Pranje", "HOME", createUser("testuser"), "blue");
+		sub2 = new Subcategory("Pranje1", "HOME", createUser("testuser"), "blue");
 	}
 	
 	@Test
@@ -44,11 +44,13 @@ public class SubcategoryServiceTest {
 		
 		assertEquals(sub.getCategory(), subcategoryJpaRepo.save(sub).getCategory());
 		
-		assertNotNull(subcategoryJpaRepo.save(sub1));
+		assertNotNull(subcategoryJpaRepo.save(sub2));
 		
-		List<Subcategory> subcategoriesByName = subcategoryJpaRepo.findByUserUsername("samin96");
+		assertEquals(sub2.getCategory(), subcategoryJpaRepo.save(sub2).getCategory());
 		
-		assertEquals(1, subcategoriesByName.size());
+		List<Subcategory> subcategoriesByName = subcategoryJpaRepo.findByUserUsername("testuser");
+		
+		assertEquals(2, subcategoriesByName.size());
 		
 	}
 	

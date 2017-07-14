@@ -36,7 +36,7 @@ public class ExpensesServiceTest {
 		
 		dateNow = new Date();
 			
-		int id = 30;
+		int id = 999999;
 		expenses = new Expenses(id, new Subcategory("Pranje", null, null), "HOME", 200, "There is no descr", "test", dateNow);
 		
 		id++;
