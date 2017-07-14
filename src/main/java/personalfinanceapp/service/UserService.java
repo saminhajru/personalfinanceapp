@@ -19,7 +19,7 @@ public class UserService {
 	}
 
 	public boolean usernameAlreadyExist(String username) {
-		User user = userRepo.getOne(username);
+		User user = userRepo.findByUsername(username);
 	
 		return (user != null);
 	}

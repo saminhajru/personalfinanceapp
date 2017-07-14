@@ -40,13 +40,13 @@ public class RegisterController {
 		
 		
 		if(result.hasErrors()) {
-			return "register";
+			return "registerPage";
 		}
 		
 		if(userService.usernameAlreadyExist(user.getUsername())) {
 			
 			result.rejectValue("username", "DuplicateUsername.user.username");
-			return "register";
+			return "registerPage";
 			
 		}	
 		
