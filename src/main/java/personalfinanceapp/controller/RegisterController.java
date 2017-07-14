@@ -38,16 +38,13 @@ public class RegisterController {
 	@RequestMapping(value = "/doregister", method = RequestMethod.POST)
 	public String doregister(@Validated(value = {FormValidationGroup.class}) User user, BindingResult result) {
 		
-		
 		if(result.hasErrors()) {
-			return "register";
+			return "registerPage";
 		}
 		
 		if(userService.usernameAlreadyExist(user.getUsername())) {
-			
 			result.rejectValue("username", "DuplicateUsername.user.username");
-			return "register";
-			
+			return "registerPage";		
 		}	
 		
 		user.setAuthority("ROLE_USER");
