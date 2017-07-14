@@ -2,6 +2,7 @@ package personalfinanceapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -10,6 +11,7 @@ import personalfinanceapp.validationGroups.FormValidationGroup;
 import personalfinanceapp.validationGroups.PersistenceValidationGroup;
 
 @Entity
+@Table(name = "user")
 public class User {
 
 	@Id

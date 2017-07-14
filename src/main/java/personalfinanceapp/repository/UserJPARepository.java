@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import personalfinanceapp.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String>  {
+public interface UserJPARepository extends JpaRepository<User, String>  {
+
+	User findByUsername(String username);
 
 }
