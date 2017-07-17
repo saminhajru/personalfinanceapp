@@ -1,22 +1,26 @@
 package personalfinanceapp.service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import personalfinanceapp.expenses.ExpensesDTO;
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.model.Subcategory;
-
 import personalfinanceapp.repository.ExpensesJPARepository;
 import personalfinanceapp.repository.ExpensesRepository;
 
@@ -25,6 +29,8 @@ import personalfinanceapp.repository.ExpensesRepository;
 @Transactional
 public class ExpensesService {
 
+	private static final List<String> FILE_HEADER = new ArrayList<>(Arrays.asList(new String[]{"ID", "SUBCATEGORY", "CATEGORY", "USER", "AMOUNT", "DESCRIPTION", "DATE"}));
+	
 	DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
 
 	@Autowired
@@ -48,15 +54,10 @@ public class ExpensesService {
 	public List<ExpensesDTO> getAllExpensesDTOForUserAndCurrentMonth(String username) throws ParseException {
 
 		List<ExpensesDTO> expensesDTOList = new ArrayList<>();
+		int currentYear = getDayOrMonthOrYear("currentYear");
+		int currentMonth = getDayOrMonthOrYear("currentMonth");
 
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		int currentYear = cal.get(Calendar.YEAR);
-		int currentMonth = cal.get(Calendar.MONTH) + 1;
-		int totalDaysdays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-		for (int i = 1; i <= totalDaysdays; i++) {
+		for (int i = 1; i <= getDayOrMonthOrYear("totalDays"); i++) {
 
 			String date = getDateInStringFormat(currentYear, currentMonth, i);
 			Date dateFormatted = formatter.parse(date);
@@ -80,6 +81,39 @@ public class ExpensesService {
 			expensesDTOList.add(expensesDTO);
 		}
 		return expensesDTOList;
+	}
+	
+	public List<Expenses> getAllExpensesForLoggedUserAndCurrentMonth(String username) throws ParseException {
+
+		int currentYear = getDayOrMonthOrYear("currentYear");
+		int currentMonth = getDayOrMonthOrYear("currentMonth");
+		
+		List<Expenses> totalListOfExpensesForCurrentMonth = new ArrayList<>();
+		
+		for (int i = 1; i <= getDayOrMonthOrYear("totalDays"); i++) {
+
+			String date = getDateInStringFormat(currentYear, currentMonth, i);
+			Date dateFormatted = formatter.parse(date);
+
+			List<Expenses> expensesList = expensesJPARepository.findByDateOFMakingtheExpenseAndUsername(dateFormatted,
+					username);
+
+			if (expensesList != null) {
+				
+				for(Expenses expenses : expensesList) {
+					
+				Subcategory sub = new Subcategory();
+				sub.setName(expenses.getSubcategoryName());
+				
+				expenses.setSubcategory(sub);
+				
+				totalListOfExpensesForCurrentMonth.add(expenses);
+				}
+			
+			}
+		}
+		return totalListOfExpensesForCurrentMonth;
+		
 	}
 
 	public String getDateInStringFormat(int currentYear, int currentMonth, int currentDay) {
@@ -119,6 +153,7 @@ public class ExpensesService {
 			String username) {
 
 		Expenses expense = new Expenses();
+		
 		expense.setExpensesId((getNumberOfExpenses()) + 1);
 		expense.setSubcategory(sub);
 		expense.setCategory(categoryRow);
@@ -128,5 +163,79 @@ public class ExpensesService {
 		expense.setDate(new Date());
 
 		return expense;
+	}
+	
+	public int getDayOrMonthOrYear(String gettinDate) {
+		
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		
+		int dayOrMonthOrYear = 0;
+		
+		if(gettinDate.equals("currentYear")) {
+			dayOrMonthOrYear = cal.get(Calendar.YEAR);
+			} else if (gettinDate.equals("currentMonth")) {
+			dayOrMonthOrYear = cal.get(Calendar.MONTH) + 1;
+			} else if (gettinDate.equals("totalDays")){
+			dayOrMonthOrYear = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+		return dayOrMonthOrYear;
+	}
+	
+	public void csvFileDownloading(String username) throws ParseException {
+		
+		List<Expenses> expensesForCurrentMonth = 
+				getAllExpensesForLoggedUserAndCurrentMonth(username);
+
+		CSVFormat csvformat = CSVFormat.DEFAULT;
+
+		String home = System.getProperty("user.home");
+		
+		String fileName = "expenses.csv";
+
+		File file = new File(home + "/Downloads/" + "" + fileName + "" + ".csv");
+
+		CSVPrinter csvPrinter = null;
+
+		FileWriter fileWriter = null;
+
+		try {
+
+			fileWriter = new FileWriter(file);
+
+			csvPrinter = new CSVPrinter(fileWriter, csvformat);
+
+			for (String header : FILE_HEADER) {
+				csvPrinter.print(header);
+			}
+
+			csvPrinter.println();
+
+			for (Expenses expenses : expensesForCurrentMonth) {
+				
+				csvPrinter.print(expenses.getExpensesId());
+				csvPrinter.print(expenses.getCategory());
+				csvPrinter.print(expenses.getSubcategory().getName());
+				csvPrinter.print(expenses.getUser());
+				csvPrinter.print(expenses.getAmount());
+				csvPrinter.print(expenses.getDescription().trim());
+				csvPrinter.print(expenses.getDate().toString());
+				csvPrinter.println();
+			}
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			try {
+				fileWriter.flush();
+				csvPrinter.close();
+				fileWriter.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
