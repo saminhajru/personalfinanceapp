@@ -1,15 +1,20 @@
 package personalfinanceapp.controller;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -34,7 +39,7 @@ public class ExpensesController {
 	private SubcategoryService subcategoryService;
 
 	private ExpensesService expenseService;
-		
+	
 	public ExpensesController() {
 	}
 	
@@ -153,5 +158,15 @@ public class ExpensesController {
 			
 		return "expenses/expensesDisplayTemplate";
 
+	}
+	
+	@RequestMapping(value = "/csvFile", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("isAuthenticated()")
+	private String csvFileDownloading(Model model, @RequestBody HashMap<String, String> propertiesRecieved, Principal principal) throws ParseException, IOException {
+
+		if(propertiesRecieved.get("csv") != null ) {
+		expenseService.csvFileDownloading(principal.getName());
+		}
+		return "expenses/expensesSelectTemplate";
 	}
 }

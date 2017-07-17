@@ -170,4 +170,30 @@ $(document).ready(function() {
 		}
 		
 	});
+		
+
+		$("#csv").click(function() {
+
+		confirm("CSV file download");
+
+		var csv = $("#csv").val();
+
+		$.ajax({
+			url : "/csvFile",
+			type : "POST",
+			contentType : "application/json",
+			data : JSON.stringify({
+				"csv" : csv
+			}),
+			success : function(data) {
+				alert("Successfully");
+			},
+			error : function() {
+				alert("Unsuccessfully");
+			}
+
+		});
+
+	});
+	
 });
