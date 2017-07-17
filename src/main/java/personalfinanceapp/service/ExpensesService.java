@@ -20,31 +20,36 @@ import personalfinanceapp.model.Subcategory;
 import personalfinanceapp.repository.ExpensesJPARepository;
 import personalfinanceapp.repository.ExpensesRepository;
 
-
 @Service
 @Transactional
 public class ExpensesService {
 
 	DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
-
-	@Autowired
+	
 	private ExpensesJPARepository expensesJPARepository;
-
-	@Autowired
 	private ExpensesRepository expensesRepository;
+	
+	public ExpensesService() {
+	}
+	
+	@Autowired
+	public ExpensesService(ExpensesJPARepository expensesJPARepository, ExpensesRepository expensesRepository) {
+		this.expensesJPARepository = expensesJPARepository;
+		this.expensesRepository = expensesRepository;
+	}
 
 	public int getNumberOfExpenses() {
 		return (int) expensesJPARepository.count();
 	}
 
-	public void save(Expenses expense) {
-		expensesJPARepository.save(expense);
+	public void save(Expenses expenses) {
+		expensesJPARepository.save(expenses);
 	}
 
 	public List<Expenses> getAllExpenses(String username) {
 		return expensesJPARepository.findByUsername(username);
 	}
-
+	
 	public List<ExpensesDTO> getAllExpensesDTOForUserAndCurrentMonth(String username) throws ParseException {
 
 		List<ExpensesDTO> expensesDTOList = new ArrayList<>();
