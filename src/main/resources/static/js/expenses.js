@@ -172,7 +172,7 @@ $(document).ready(function() {
 	});
 		
 
-		$("#csv").click(function() {
+	$("#csv").click(function() {
 
 		confirm("CSV file download");
 
@@ -184,6 +184,31 @@ $(document).ready(function() {
 			contentType : "application/json",
 			data : JSON.stringify({
 				"csv" : csv
+			}),
+			success : function(data) {
+				alert("Successfully");
+			},
+			error : function() {
+				alert("Unsuccessfully");
+			}
+
+		});
+
+	});
+	
+
+	$("#excel").click(function() {
+
+		confirm("Excel file download");
+
+		var excel = $("#excel").val();
+
+		$.ajax({
+			url : "/excelFile",
+			type : "POST",
+			contentType : "application/json",
+			data : JSON.stringify({
+				"excel" : excel
 			}),
 			success : function(data) {
 				alert("Successfully");

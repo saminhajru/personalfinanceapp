@@ -1,6 +1,7 @@
 package personalfinanceapp.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,6 +16,11 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -242,5 +248,87 @@ public class ExpensesService {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void excelFileDownloading(String name) throws ParseException {
+		
+		String home = System.getProperty("user.home");
+		
+		String fileName = "expenses.excel";
+
+		File file = new File(home + "/Downloads/" + "" + fileName + "" + ".excel");
+		
+		List<Expenses> expensesForCurrentMonth = 
+				getAllExpensesForLoggedUserAndCurrentMonth(name);
+		
+		Workbook workbook = new HSSFWorkbook();
+		Sheet sheet = workbook.createSheet();
+		
+		int rowCount = 0;
+		Row rowHeader = sheet.createRow(rowCount);
+		writeExpenses(FILE_HEADER, rowHeader);
+		
+		for(Expenses expenses : expensesForCurrentMonth) {
+			Row row = sheet.createRow(++rowCount);
+			writeExpenses(expenses, row);
+		}
+		
+		FileOutputStream fileOutputStream = null;
+		
+		try {
+			fileOutputStream = new FileOutputStream(file);
+			workbook.write(fileOutputStream);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+
+	private void writeExpenses(List<String> fileHeader, Row rowHeader) {
+		
+		Cell cell = rowHeader.createCell(0);
+		cell.setCellValue(fileHeader.get(0));
+		
+		cell = rowHeader.createCell(1);
+		cell.setCellValue(fileHeader.get(1));
+		
+		cell = rowHeader.createCell(2);
+		cell.setCellValue(fileHeader.get(2));
+		
+		cell = rowHeader.createCell(3);
+		cell.setCellValue(fileHeader.get(3));
+		
+		cell = rowHeader.createCell(4);
+		cell.setCellValue(fileHeader.get(4));
+		
+		cell = rowHeader.createCell(5);
+		cell.setCellValue(fileHeader.get(5));
+		
+		cell = rowHeader.createCell(6);
+		cell.setCellValue(fileHeader.get(6));	
+	}
+
+	private void writeExpenses(Expenses expenses, Row row) {
+		
+		Cell cell = row.createCell(0);
+		cell.setCellValue(Integer.toString(expenses.getExpensesId()));
+		
+		cell = row.createCell(1);
+		cell.setCellValue(expenses.getCategory());
+		
+		cell = row.createCell(2);
+		cell.setCellValue(expenses.getSubcategoryName());
+		
+		cell = row.createCell(3);
+		cell.setCellValue(expenses.getAmount());
+		
+		cell = row.createCell(4);
+		cell.setCellValue(expenses.getUser());
+		
+		cell = row.createCell(5);
+		cell.setCellValue(expenses.getDescription());
+		
+		cell = row.createCell(6);
+		cell.setCellValue(expenses.getDate());		
 	}
 }
