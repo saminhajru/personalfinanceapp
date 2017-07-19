@@ -1,20 +1,16 @@
 package personalfinanceapp.controller;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -35,7 +31,7 @@ import personalfinanceapp.service.SubcategoryService;
 
 @Controller
 public class ExpensesController {
-
+	
 	private SubcategoryService subcategoryService;
 
 	private ExpensesService expenseService;
@@ -110,7 +106,7 @@ public class ExpensesController {
 		Subcategory sub = new Subcategory();
 		sub.setName(subcategory);
 
-		Expenses expense = expenseService.createExpense(sub, categoryRow, amountOfExpense, description, principal.getName());
+		Expenses expense = expenseService.createExpense(sub, categoryRow, amountOfExpense, description, principal.getName(), new Date());
 
 		expenseService.save(expense);
 
@@ -146,14 +142,14 @@ public class ExpensesController {
 	private String queryingExpense(Model model, Principal principal,
 			@RequestParam(name = "categorySelect", required = false) String category,
 			@RequestParam(name = "subcategory", required = false) String subcategory,
-			@RequestParam(name = "firstAmount", required = false) Double fromAmount,
-			@RequestParam(name = "secondAmount", required = false) Double toAmount,
+			@RequestParam(name = "fromAmount", required = false) Double fromAmount,
+			@RequestParam(name = "toAmount", required = false) Double toAmount,
 			@RequestParam(name = "startDate", required = false) String startDate,
 			@RequestParam(name = "endDate", required = false) String endDate,
 			@RequestParam(name = "orderBy", required = false) String orderBy) throws ParseException {
 
 		String username = principal.getName();
-	
+			
 		model.addAttribute("expense", expenseService.getExpenses(category, subcategory, fromAmount, toAmount, startDate, endDate, username, orderBy));
 			
 		return "expenses/expensesDisplayTemplate";
@@ -167,6 +163,15 @@ public class ExpensesController {
 		if(propertiesRecieved.get("csv") != null ) {
 		expenseService.csvFileDownloading(principal.getName());
 		}
+		return "expenses/expensesSelectTemplate";
+	}
+	
+	@RequestMapping(value = "/csvFileUpload", method = RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
+	private String csvFileUploading(Model model, @RequestParam(name="csvFile", required = false) MultipartFile csvFile , Principal principal) throws ParseException, IOException {
+
+		expenseService.csvFileUpload(csvFile, principal);
+		
 		return "expenses/expensesSelectTemplate";
 	}
 }

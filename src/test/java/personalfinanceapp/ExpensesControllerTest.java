@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -114,7 +115,7 @@ public class ExpensesControllerTest {
 		Subcategory sub = new Subcategory();
 		sub.setName("Pranje");
 
-		Expenses expense = expService.createExpense(sub, "HOME", "100", "There is no description", "test");
+		Expenses expense = expService.createExpense(sub, "HOME", "100", "There is no description", "test", new Date());
 
 		verify(expService, times(1)).save(expense);
 	}

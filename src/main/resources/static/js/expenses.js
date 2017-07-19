@@ -195,5 +195,38 @@ $(document).ready(function() {
 		});
 
 	});
+		
+		$("#csvInport").click(function(event) {
+			
+			event.preventDefault();
+			
+			var csvFile = $("#csvFile").val();
+						
+			if(csvFile.endsWith(".csv")) {
+				
+				var form = $("#csvFileUpload")[0];
+				var formData = new FormData(form);
+				
+				$.ajax({
+				type : "POST",
+				url : "csvFileUpload",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 600000,
+				
+				success : function(data) {
+					alert("Successfully Uploaded");
+				},
+				error : function() {
+					alert("Unsuccessfully Uploaded");
+				}
+				});
+		
+			} else {
+				alert("File must be in csv format");
+			}
+		});
 	
 });

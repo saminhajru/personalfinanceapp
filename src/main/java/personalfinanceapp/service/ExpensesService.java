@@ -1,7 +1,11 @@
 package personalfinanceapp.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,9 +18,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import personalfinanceapp.expenses.ExpensesDTO;
 import personalfinanceapp.model.Expenses;
@@ -31,6 +38,7 @@ public class ExpensesService {
 	private static final List<String> FILE_HEADER = new ArrayList<>(Arrays.asList(new String[]{"ID", "SUBCATEGORY", "CATEGORY", "USER", "AMOUNT", "DESCRIPTION", "DATE"}));
 	
 	DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
+	DateFormat formatterYYMMDD = new SimpleDateFormat("yy-mm-dd");
 	
 	private ExpensesJPARepository expensesJPARepository;
 	private ExpensesRepository expensesRepository;
@@ -155,7 +163,7 @@ public class ExpensesService {
 	}
 	
 	public Expenses createExpense(Subcategory sub, String categoryRow, String amount, String description,
-			String username) {
+			String username, Date date) {
 
 		Expenses expense = new Expenses();
 		
@@ -165,7 +173,7 @@ public class ExpensesService {
 		expense.setAmount(Double.parseDouble(amount));
 		expense.setDescription(description);
 		expense.setUser(username);
-		expense.setDate(new Date());
+		expense.setDate(date);
 
 		return expense;
 	}
@@ -220,8 +228,8 @@ public class ExpensesService {
 			for (Expenses expenses : expensesForCurrentMonth) {
 				
 				csvPrinter.print(expenses.getExpensesId());
-				csvPrinter.print(expenses.getCategory());
 				csvPrinter.print(expenses.getSubcategory().getName());
+				csvPrinter.print(expenses.getCategory());
 				csvPrinter.print(expenses.getUser());
 				csvPrinter.print(expenses.getAmount());
 				csvPrinter.print(expenses.getDescription().trim());
@@ -242,5 +250,36 @@ public class ExpensesService {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void csvFileUpload(MultipartFile csvFile, Principal principal) throws IOException, NumberFormatException, ParseException {
+		
+		File file = new File(csvFile.getOriginalFilename());
+		
+		FileOutputStream fos = new FileOutputStream(file);
+		fos.write(csvFile.getBytes());
+		fos.close();
+		
+		FileReader fileReader = new FileReader(file);
+		
+		CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader();
+		
+		CSVParser csvParser = new CSVParser(fileReader, csvFormat);
+		
+		List<CSVRecord> csvRecords = csvParser.getRecords();
+		
+		for(int i = 0; i < csvRecords.size(); i++) {
+			CSVRecord record = csvRecords.get(i);
+			
+			Subcategory sub = new Subcategory();
+			sub.setName(record.get("SUBCATEGORY"));
+			
+			Expenses expenses = createExpense(sub , record.get("CATEGORY"), record.get("AMOUNT"), record.get("DESCRIPTION"), principal.getName(), formatterYYMMDD.parse(record.get("DATE")));
+			
+			save(expenses);
+		}
+		
+		csvParser.close();
+		file.delete();
 	}
 }
