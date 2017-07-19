@@ -258,7 +258,6 @@ public class ExpensesService {
 		
 		FileOutputStream fos = new FileOutputStream(file);
 		fos.write(csvFile.getBytes());
-		fos.close();
 		
 		FileReader fileReader = new FileReader(file);
 		
@@ -278,8 +277,8 @@ public class ExpensesService {
 			
 			save(expenses);
 		}
-		
-		csvParser.close();
+		fos.close();
+		csvParser.close();		
 		file.delete();
 	}
 }
