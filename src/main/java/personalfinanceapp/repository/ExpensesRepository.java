@@ -66,4 +66,10 @@ public class ExpensesRepository {
 		return searchCriteria.list();
 
 	}
+	
+	public int getIdOfLastExpenseInDatabase() {
+		
+		return (int)session().createQuery("select max(id) from Expenses").uniqueResult();
+		
+	}	
 }

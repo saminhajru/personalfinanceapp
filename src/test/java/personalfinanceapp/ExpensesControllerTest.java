@@ -128,5 +128,5 @@ public class ExpensesControllerTest {
 			.param("categorySelect", "HOME").with(csrf())).andExpect(status().is(200))
 			.andExpect(view().name("expenses/expensesDisplayTemplate"))
 			.andExpect(model().attributeExists("expense"));
-	}
+	}	
 }

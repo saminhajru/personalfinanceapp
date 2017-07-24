@@ -1,6 +1,7 @@
 package personalfinanceapp.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -168,10 +169,21 @@ public class ExpensesController {
 	
 	@RequestMapping(value = "/csvFileUpload", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
-	private String csvFileUploading(Model model, @RequestParam(name="csvFile", required = false) MultipartFile csvFile , Principal principal) throws ParseException, IOException {
-
-		expenseService.csvFileUpload(csvFile, principal);
+	private @ResponseBody String csvFileUploading(@RequestParam(name="csvFile", required = false) MultipartFile csvFile , Principal principal) throws ParseException, IOException {
 		
-		return "expenses/expensesSelectTemplate";
+		String message = null;
+		
+		File file = new File(csvFile.getName());
+		FileOutputStream fileOutputStream = new FileOutputStream(file);
+		fileOutputStream.write(csvFile.getBytes());
+		
+		String username = principal.getName();
+		
+		message = expenseService.csvFileUpload(file, username);
+		
+		fileOutputStream.close();
+		file.delete();
+	
+		return message;
 	}
 }

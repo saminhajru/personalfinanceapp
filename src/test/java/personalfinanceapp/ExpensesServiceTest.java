@@ -3,6 +3,7 @@ package personalfinanceapp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class ExpensesServiceTest {
 	private Expenses expenses;
 	
 	private Date dateNow;
+	
+	private String dir = System.getProperty("user.dir");
 	
 	@Before
 	public void setup() {

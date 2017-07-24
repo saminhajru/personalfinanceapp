@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import personalfinanceapp.categories.Categories;
 import personalfinanceapp.expenses.ExpensesDTO;
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.model.Subcategory;
@@ -53,11 +54,11 @@ public class ExpensesService {
 	}
 
 	public int getNumberOfExpenses() {
-		return (int) expensesJPARepository.count();
+		return (int)expensesJPARepository.count();
 	}
-
-	public void save(Expenses expenses) {
-		expensesJPARepository.save(expenses);
+	
+	public boolean save(Expenses expenses) {
+		return expensesJPARepository.save(expenses) != null;
 	}
 
 	public List<Expenses> getAllExpenses(String username) {
@@ -178,6 +179,22 @@ public class ExpensesService {
 		return expense;
 	}
 	
+	public Expenses createExpense(Subcategory sub, String categoryRow, Double amount, String description,
+			String username, Date date) {
+
+		Expenses expense = new Expenses();
+		
+		expense.setExpensesId((getNumberOfExpenses()) + 1);
+		expense.setSubcategory(sub);
+		expense.setCategory(categoryRow);
+		expense.setAmount(amount);
+		expense.setDescription(description);
+		expense.setUser(username);
+		expense.setDate(date);
+
+		return expense;
+	}
+	
 	public int getDayOrMonthOrYear(String gettinDate) {
 		
 		Date now = new Date();
@@ -252,33 +269,84 @@ public class ExpensesService {
 		}
 	}
 	
-	public void csvFileUpload(MultipartFile csvFile, Principal principal) throws IOException, NumberFormatException, ParseException {
+	public String csvFileUpload(File csvFile, String username)
+			throws IOException, NumberFormatException, ParseException {
 		
-		File file = new File(csvFile.getOriginalFilename());
 		
-		FileOutputStream fos = new FileOutputStream(file);
-		fos.write(csvFile.getBytes());
-		
-		FileReader fileReader = new FileReader(file);
-		
+		FileReader fileReader = new FileReader(csvFile);
 		CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader();
-		
 		CSVParser csvParser = new CSVParser(fileReader, csvFormat);
-		
 		List<CSVRecord> csvRecords = csvParser.getRecords();
-		
-		for(int i = 0; i < csvRecords.size(); i++) {
+
+		Double amount = null;
+		Date date = null;
+		Subcategory sub = new Subcategory();
+		String subName = null;
+		String category = null;
+		String description = null;
+		String returnMessage = null;
+
+		for (int i = 0; i < csvRecords.size(); i++) {
 			CSVRecord record = csvRecords.get(i);
-			
-			Subcategory sub = new Subcategory();
-			sub.setName(record.get("SUBCATEGORY"));
-			
-			Expenses expenses = createExpense(sub , record.get("CATEGORY"), record.get("AMOUNT"), record.get("DESCRIPTION"), principal.getName(), formatterYYMMDD.parse(record.get("DATE")));
-			
-			save(expenses);
+
+			if (record.size() == 5) {
+				String recordCategory = record.get("CATEGORY");
+				if (categoryExist(recordCategory)) {
+					category = recordCategory;
+					subName = record.get("SUBCATEGORY");
+
+					if (!subName.isEmpty() && subName.length() < 15) {
+						sub.setName(subName);
+						description = record.get("DESCRIPTION");
+
+						try {
+							amount = Double.parseDouble(record.get("AMOUNT"));
+							date = formatterYYMMDD.parse(record.get("DATE"));
+
+							if (amount instanceof Double && date instanceof Date) {
+
+								Expenses expenses = createExpense(sub, category, amount, description,
+										username, date);
+								returnMessage = "Saved succesfully in the database.";
+								save(expenses);
+								
+							} else {
+								returnMessage = "Amount or Date are not in correct type";
+							}
+							
+						} catch (Exception e) {
+							returnMessage = "Amount or Date are not in correct type";
+							e.printStackTrace();
+						}
+
+					} else {
+						returnMessage = "Subcategory is empty or larger than 15 characters";
+					}
+				} else {
+					returnMessage = "Category don't exit. Please go to Category page and see which categoies are available";
+				}
+			} else {
+				returnMessage = "Some informations are missing."
+						+ "Correct format (SUBCATEGORY, CATEGORY, AMOUNT, DESCRIPTION, DATE)";
+			}
 		}
-		fos.close();
-		csvParser.close();		
-		file.delete();
+
+		csvParser.close();
+
+		return returnMessage;
+	}
+	
+	public boolean categoryExist(String category) {
+		Categories[] cat = Categories.values();
+		boolean exit = false;
+
+		for (Categories cate : cat) {
+			String categoryName = cate.name();
+
+			if (categoryName.equals(category)) {
+				exit = true;
+			}
+		}
+		return exit;
 	}
 }
