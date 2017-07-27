@@ -117,7 +117,7 @@ public class ExpensesController {
 		
 		}
 		
-		if(photo != null) {
+		if(!photo.isEmpty()) {
 
 		File directoryForSavingImage = new File(System.getProperty("user.dir") + "/src/main/resources/static/images/"
 				+ principal.getName() + "/" + categoryRow + "/" + subcategory + "/");
