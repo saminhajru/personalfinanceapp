@@ -2,7 +2,10 @@ package personalfinanceapp.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,15 +18,20 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import org.apache.commons.csv.CSVRecord;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import personalfinanceapp.categories.Categories;
 import personalfinanceapp.expenses.ExpensesDTO;
 import personalfinanceapp.model.Expenses;
 import personalfinanceapp.model.Subcategory;
@@ -37,6 +45,7 @@ public class ExpensesService {
 	private static final List<String> FILE_HEADER = new ArrayList<>(Arrays.asList(new String[]{"ID", "SUBCATEGORY", "CATEGORY", "USER", "AMOUNT", "DESCRIPTION", "DATE"}));
 	
 	DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
+	DateFormat formatterYYMMDD = new SimpleDateFormat("yy-mm-dd");
 	
 	private ExpensesJPARepository expensesJPARepository;
 	private ExpensesRepository expensesRepository;
@@ -51,11 +60,11 @@ public class ExpensesService {
 	}
 
 	public int getNumberOfExpenses() {
-		return (int) expensesJPARepository.count();
+		return (int)expensesJPARepository.count();
 	}
-
-	public void save(Expenses expenses) {
-		expensesJPARepository.save(expenses);
+	
+	public boolean save(Expenses expenses) {
+		return expensesJPARepository.save(expenses) != null;
 	}
 
 	public List<Expenses> getAllExpenses(String username) {
@@ -161,7 +170,7 @@ public class ExpensesService {
 	}
 	
 	public Expenses createExpense(Subcategory sub, String categoryRow, String amount, String description,
-			String username) {
+			String username, Date date) {
 
 		Expenses expense = new Expenses();
 		
@@ -171,7 +180,23 @@ public class ExpensesService {
 		expense.setAmount(Double.parseDouble(amount));
 		expense.setDescription(description);
 		expense.setUser(username);
-		expense.setDate(new Date());
+		expense.setDate(date);
+
+		return expense;
+	}
+	
+	public Expenses createExpense(Subcategory sub, String categoryRow, Double amount, String description,
+			String username, Date date) {
+
+		Expenses expense = new Expenses();
+		
+		expense.setExpensesId((getNumberOfExpenses()) + 1);
+		expense.setSubcategory(sub);
+		expense.setCategory(categoryRow);
+		expense.setAmount(amount);
+		expense.setDescription(description);
+		expense.setUser(username);
+		expense.setDate(date);
 
 		return expense;
 	}
@@ -226,8 +251,8 @@ public class ExpensesService {
 			for (Expenses expenses : expensesForCurrentMonth) {
 				
 				csvPrinter.print(expenses.getExpensesId());
-				csvPrinter.print(expenses.getCategory());
 				csvPrinter.print(expenses.getSubcategory().getName());
+				csvPrinter.print(expenses.getCategory());
 				csvPrinter.print(expenses.getUser());
 				csvPrinter.print(expenses.getAmount());
 				csvPrinter.print(expenses.getDescription().trim());
@@ -249,7 +274,7 @@ public class ExpensesService {
 			}
 		}
 	}
-
+	
 	public void excelFileDownloading(String name) throws ParseException {
 		
 		String home = System.getProperty("user.home");
@@ -278,6 +303,7 @@ public class ExpensesService {
 		try {
 			fileOutputStream = new FileOutputStream(file);
 			workbook.write(fileOutputStream);
+			workbook.close();
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -330,5 +356,87 @@ public class ExpensesService {
 		
 		cell = row.createCell(6);
 		cell.setCellValue(expenses.getDate());		
+
+	}
+	
+	public String csvFileUpload(File csvFile, String username)
+			throws IOException, NumberFormatException, ParseException {
+		
+		
+		FileReader fileReader = new FileReader(csvFile);
+		CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader();
+		CSVParser csvParser = new CSVParser(fileReader, csvFormat);
+		List<CSVRecord> csvRecords = csvParser.getRecords();
+
+		Double amount = null;
+		Date date = null;
+		Subcategory sub = new Subcategory();
+		String subName = null;
+		String category = null;
+		String description = null;
+		String returnMessage = null;
+
+		for (int i = 0; i < csvRecords.size(); i++) {
+			CSVRecord record = csvRecords.get(i);
+
+			if (record.size() == 5) {
+				String recordCategory = record.get("CATEGORY");
+				if (categoryExist(recordCategory)) {
+					category = recordCategory;
+					subName = record.get("SUBCATEGORY");
+
+					if (!subName.isEmpty() && subName.length() < 15) {
+						sub.setName(subName);
+						description = record.get("DESCRIPTION");
+
+						try {
+							amount = Double.parseDouble(record.get("AMOUNT"));
+							date = formatterYYMMDD.parse(record.get("DATE"));
+
+							if (amount instanceof Double && date instanceof Date) {
+
+								Expenses expenses = createExpense(sub, category, amount, description,
+										username, date);
+								returnMessage = "Saved succesfully in the database.";
+								save(expenses);
+								
+							} else {
+								returnMessage = "Amount or Date are not in correct type";
+							}
+							
+						} catch (Exception e) {
+							returnMessage = "Amount or Date are not in correct type";
+							e.printStackTrace();
+						}
+
+					} else {
+						returnMessage = "Subcategory is empty or larger than 15 characters";
+					}
+				} else {
+					returnMessage = "Category don't exit. Please go to Category page and see which categoies are available";
+				}
+			} else {
+				returnMessage = "Some informations are missing."
+						+ "Correct format (SUBCATEGORY, CATEGORY, AMOUNT, DESCRIPTION, DATE)";
+			}
+		}
+
+		csvParser.close();
+
+		return returnMessage;
+	}
+	
+	public boolean categoryExist(String category) {
+		Categories[] cat = Categories.values();
+		boolean exit = false;
+
+		for (Categories cate : cat) {
+			String categoryName = cate.name();
+
+			if (categoryName.equals(category)) {
+				exit = true;
+			}
+		}
+		return exit;
 	}
 }

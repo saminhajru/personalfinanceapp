@@ -18,8 +18,8 @@ class Views {
 
 @Entity
 public class Expenses {
+	
 	@Id
-	@GeneratedValue
 	private int expensesId;
 	@ManyToOne
 	@JoinColumn(name = "subcategory")
@@ -43,7 +43,7 @@ public class Expenses {
 	public Expenses(Subcategory subcategory) {
 		this.subcategory = subcategory;
 	}
-
+	
 	public Expenses(int expensesId, Subcategory subcategory, String category, double amountOfExpense,
 			String description, String user, Date dateOFMakingtheExpense) {
 		this.expensesId = expensesId;
@@ -121,5 +121,29 @@ public class Expenses {
 				+ ", amountOfExpense=" + amountOfExpense + ", description=" + description + ", user=" + username
 				+ ", dateOFMakingtheExpense=" + dateOFMakingtheExpense + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + expensesId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Expenses other = (Expenses) obj;
+		if (expensesId != other.expensesId)
+			return false;
+		return true;
+	}
+	
+	
 
 }
