@@ -4,8 +4,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,72 +19,55 @@ import personalfinanceapp.service.SubcategoryService;
 @Controller
 public class CategoriesController {
 
-
 	private SubcategoryService subcategoryService;
 	
-	
-	public CategoriesController() {	
-	}
-	
-	@Autowired
 	public CategoriesController(SubcategoryService subcategoryService) {
 		this.subcategoryService = subcategoryService;
 	}
 
 	@RequestMapping("/categories")
 	public String categories(Model model) {
-
-		Categories[] categories = Categories.values();
-
-		model.addAttribute("categories", categories);
-
+		
+		model.addAttribute("categories", Categories.values());
 		return "category/categories";
-
 	}
 
 	@RequestMapping(value = "/subcategories", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public String subcategories(Model model, Principal principal) {
 
-		Categories[] categories = Categories.values();
+		model.addAttribute("categories",  Categories.values());
 
-		model.addAttribute("categories", categories);
-
-		List<Subcategory> subcategories = subcategoryService.getAllSubcategoriesFromUser(principal.getName());
+		List<Subcategory> subcategories = subcategoryService.findSubcategoriesByUsername(principal.getName());
 
 		if (!subcategories.isEmpty()) {
 			model.addAttribute("subcategories", subcategories);
 		}
-
 		return "subcategory/subcategories";
 	}
 
 	@RequestMapping(value = "/saveSubcategory", consumes = "application/json", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
-	public String saveSubcategory(@RequestBody HashMap<String, String> categoryAndSubcategory, Principal principal,
+	public String saveSubcategory(@RequestBody HashMap<String, String> data, Principal principal,
 			Model model) {
 				
-			String nameOfTheSubcategory = categoryAndSubcategory.get("nameOfTheSubcategory");
-			String category = categoryAndSubcategory.get("category");
-			String color =  categoryAndSubcategory.get("color");
+			String category = data.get("category");
+			String subcategoryName = data.get("subcategory");
+			String color =  data.get("color");
 
 			User user = new User();
 			user.setUsername(principal.getName());
-			Subcategory subcategory = new Subcategory(nameOfTheSubcategory, category, user, color);
+			Subcategory subcategory = new Subcategory(subcategoryName, category, user, color);
 			
-			System.out.println(subcategory);
-
 			subcategoryService.saveSubcategory(subcategory);
 
-			model.addAttribute("nameOfTheSubcategory", nameOfTheSubcategory);
+			model.addAttribute("subcategoryName", subcategoryName);
 			String image = "images/svg/" + "" + category+ "" + ".svg";
 			model.addAttribute("image", image);
 			
-			String colorForBackgroundStyle = "background-color : " + "" + color;
-			model.addAttribute("color", colorForBackgroundStyle);
+			String backgroundColor = "background-color : " + "" + color;
+			model.addAttribute("color", backgroundColor);
 			
-		
 		return "subcategory/subcategoryTableTemplate";
 	}
-
 }

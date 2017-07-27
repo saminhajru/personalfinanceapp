@@ -73,7 +73,7 @@ public class SubcategoriesControllerTest {
 			.andExpect(view().name("subcategory/subcategories"))
 			.andExpect(model().attributeExists("categories"));
 
-		verify(subcategoryService, times(1)).getAllSubcategoriesFromUser("test");
+		verify(subcategoryService, times(1)).findSubcategoriesByUsername("test");
 	}
 
 	@Test

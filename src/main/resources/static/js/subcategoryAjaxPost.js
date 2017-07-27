@@ -13,7 +13,7 @@ $(document).ready(function() {
 		
 		evt.preventDefault();
 		
-		var nameOfTheSubcategory = $("#nameOfTheSubcategory").val();
+		var subcategory = $("#nameOfTheSubcategory").val();
 		var category = $("#category").val();
 		var color = $("#chosenColor").val();
 		
@@ -22,7 +22,7 @@ $(document).ready(function() {
 			url : "/saveSubcategory",
 			type : "POST",
 			data : JSON.stringify({
-				"nameOfTheSubcategory" : nameOfTheSubcategory,
+				"subcategory" : subcategory,
 				"category" : category,
 				"color" : color
 			}),
