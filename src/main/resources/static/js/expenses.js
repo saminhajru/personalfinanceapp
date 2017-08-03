@@ -11,7 +11,6 @@ $(document).ready(function() {
 	$("#categoryRow").on("change", function() {
 
 		$("#subcategoryRow").empty();
-
 		var category = $("#categoryRow").val();
 
 		$.ajax({
@@ -23,11 +22,7 @@ $(document).ready(function() {
 			}),
 			success : function(data) {
 				$("#subcategoryRow").append(data);
-			},
-			error : function() {
-
 			}
-
 		});
 
 	});
@@ -35,16 +30,12 @@ $(document).ready(function() {
 	$("#saveExpense").click(function(event) {
 
 		event.preventDefault();
-
 		var subcategory = $("#subcategory").val();
-
 		var form = $("#fileUploadForm")[0];
-
 		var formData = new FormData(form);
 		formData.append("subcategory", subcategory);
 
 		$.ajax({
-
 			type : "POST",
 			enctype : 'multipart/form-data',
 			url : "saveExpenseAndImage",
@@ -53,21 +44,14 @@ $(document).ready(function() {
 			contentType : false,
 			cache : false,
 			timeout : 600000,
-
 			success : function(data) {
 				$("#tableForDisplaying tbody").append(data);
 				$("#modalForAddingExpense").modal("hide");
-			},
-			error : function() {
-				alert("Error");
 			}
-
 		});
-
 	});
 
-	// search
-
+	// Used for getting values from user for search purposes
 	$("#categorySelect").on("change", function() {
 
 		$("#subcategorySelectContainer").empty();
@@ -83,48 +67,40 @@ $(document).ready(function() {
 			}),
 			success : function(data) {
 				$("#subcategorySelectContainer").append(data);
-			},
-			error : function() {
-
 			}
-
 		});
-
 	});
 
 	$("#startDate, #endDate").datepicker({
 		dateFormat : 'mm/dd/yy'
 	}).on("change blur", function() {
 		if ($(this).valid()) {
-			$(this).parent().parent().addClass("has-success");
-			$(this).parent().parent().removeClass("has-error");
+			$(this).closest(".row")
+				.addClass("has-success")
+				.removeClass("has-error");
 			$("#submitSearchQuery").prop("disabled", false);
 			$(this).css("color", "black");
 
 		} else {
-			$(this).parent().parent().removeClass("has-success");
-			$(this).parent().parent().addClass("has-error");
+			$(this).closest(".row")
+				.removeClass("has-success")
+				.addClass("has-error");
 			$("#submitSearchQuery").prop("disabled", "disabled");
 			$(".error").css("color", "red");
 		}
-
 	});
 
 	$("#submitSearchQuery").click(function(event) {
 
 		event.preventDefault();
-
 		var subcategory = $("#subcategory").val();
 		var orderBy = $("#orderBy").val();
-
 		var form = $("#searchForm")[0];
-
 		var formData = new FormData(form);
 		formData.append("subcategory", subcategory);
 		formData.append("orderBy", orderBy);
 
 		$.ajax({
-
 			type : "POST",
 			url : "sendingPropertiesForQueryingExpense",
 			data : formData,
@@ -132,17 +108,11 @@ $(document).ready(function() {
 			contentType : false,
 			cache : false,
 			timeout : 600000,
-
 			success : function(data) {
 				$("#tableForDisplaying tbody").empty();
 				$("#tableForDisplaying tbody").append(data);
-			},
-			error : function() {
-				alert("Error");
 			}
-
 		});
-
 	});
 
 	var $table = $("#tableForDisplaying");
@@ -170,9 +140,8 @@ $(document).ready(function() {
 	$("#csv").click(function() {
 
 		confirm("CSV file download");
-
 		var csv = $("#csv").val();
-
+		
 		$.ajax({
 			url : "/csvFile",
 			type : "POST",
@@ -186,14 +155,12 @@ $(document).ready(function() {
 			error : function() {
 				alert("Unsuccessfully");
 			}
-
 		});
 	});
 
 	$("#excel").click(function() {
 
 		confirm("Excel file download");
-
 		var excel = $("#excel").val();
 
 		$.ajax({
@@ -216,7 +183,6 @@ $(document).ready(function() {
 	$("#csvInport").click(function(event) {
 
 		event.preventDefault();
-
 		var csvFile = $("#csvFile").val();
 
 		if (csvFile.endsWith(".csv")) {
