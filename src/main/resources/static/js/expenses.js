@@ -83,7 +83,7 @@ $(document).ready(function() {
 
 		} else {
 			$(this).closest(".row")
-				.removeClass("has-success");
+				.removeClass("has-success")
 				.addClass("has-error");
 			$("#submitSearchQuery").prop("disabled", "disabled");
 			$(".error").css("color", "red");
